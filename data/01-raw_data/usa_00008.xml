@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="ipums-ddi-xslt.xsl"?>
-<codeBook ID="ddi2-eef54770-6327-013d-9726-0242ac180004-usa_00007.dat-usa.ipums.org" version="2.5" xmlns="ddi:codebook:2_5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ddi:codebook:2_5 http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd">
+<codeBook ID="ddi2-eef54770-6327-013d-9726-0242ac180004-usa_00008.dat-usa.ipums.org" version="2.5" xmlns="ddi:codebook:2_5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ddi:codebook:2_5 http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd">
   <docDscr>
     <citation>
       <titlStmt>
         <titl>Codebook for an IPUMS USA Data Extract</titl>
-        <subTitl>DDI 2.5 metadata describing the extract file  'usa_00007.dat'</subTitl>
-        <IDNo>ddi2-eef54770-6327-013d-9726-0242ac180004-usa_00007.dat-usa.ipums.org</IDNo>
+        <subTitl>DDI 2.5 metadata describing the extract file  'usa_00008.dat'</subTitl>
+        <IDNo>ddi2-eef54770-6327-013d-9726-0242ac180004-usa_00008.dat-usa.ipums.org</IDNo>
       </titlStmt>
       <rspStmt>
         <AuthEnty affiliation="University of Minnesota">IPUMS</AuthEnty>
       </rspStmt>
       <prodStmt>
         <producer abbr="IPUMS" affiliation="University of Minnesota" role="Documentation">IPUMS</producer>
-        <prodDate date="2024-10-04">October 4, 2024</prodDate>
+        <prodDate date="2024-10-08">October 8, 2024</prodDate>
         <prodPlac>IPUMS, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</prodPlac>
       </prodStmt>
       <distStmt>
@@ -24,14 +24,14 @@
   <stdyDscr>
     <citation>
       <titlStmt>
-        <titl>User Extract usa_00007.dat</titl>
+        <titl>User Extract usa_00008.dat</titl>
       </titlStmt>
       <rspStmt>
         <AuthEnty affiliation="University of Minnesota">IPUMS</AuthEnty>
       </rspStmt>
       <prodStmt>
         <producer abbr="IPUMS" affiliation="University of Minnesota" role="Documentation">IPUMS</producer>
-        <prodDate date="2024-10-04">October 4, 2024</prodDate>
+        <prodDate date="2024-10-08">October 8, 2024</prodDate>
         <prodPlac>IPUMS, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</prodPlac>
       </prodStmt>
       <distStmt>
@@ -42,7 +42,7 @@
         <serInfo>DOI:10.18128/D010.V15.0</serInfo>
       </serStmt>
       <verStmt>
-        <version date="2024-10-04"/>
+        <version date="2024-10-08"/>
       </verStmt>
     </citation>
     <stdyInfo>
@@ -96,7 +96,7 @@ The licensing agreement for use of IPUMS USA data requires that users supply us 
   </stdyDscr>
   <fileDscr ID="ExtractData">
     <fileTxt>
-      <fileName>usa_00007.dat</fileName>
+      <fileName>usa_00008.dat</fileName>
       <fileCont>Microdata records</fileCont>
       <fileStrc type="rectangular"/>
       <fileType charset="ISO-8859-1">ISO-8859-1 data file</fileType>
@@ -8740,8 +8740,1005 @@ Researchers at the Bureau of Labor Statistics (BLS) then used the resulting tabl
   <concept vocab="IPUMS">Work Variables -- PERSON</concept>
   <varFormat schema="other" type="numeric"/>
 </var>
+<var ID="IND1990" dcml="0" files="ExtractData" intrvl="discrete" name="IND1990">
+  <location EndPos="109" StartPos="107" width="3"/>
+  <labl>Industry, 1990 basis</labl>
+  <txt><![CDATA[IND1990 classifies industries from all years since 1950 into the 1990 Census Bureau industrial classification scheme.  Like IND1950, IND1990 offers researchers a consistent long-term classification of industries.    
+
+The Census Bureau has reorganized its industrial classification system in almost every census administered since 1940.  All original industry information is stored in the IND variable.  The meaning of codes in the IND variable changes with each census year.  We chose the 1990 scheme as the standard for IND1990 so that no year's industry data would be forced to bridge both of the two most significant changes in twentieth-century coding schemes: from 1970 to 1980 and from 1990 to 2000.  In IND1990, all samples from 1950 onward bridge no more than one major change in twentieth-century industrial coding schemes.  For this reason, the variable may be preferable to IND1950 for the samples from 1980 onward.  Sensitivity testing suggests that IND1990 performs very similarly to IND1950 for most purposes.
+
+IND1990 was created using a series of technical papers published by the Census Bureau shortly after each census was administered.  These papers provide detailed analyses of how the industrial coding scheme for each census year differed from the scheme used during the previous census year.  These industrial "crosswalks" are based on samples of cases that are "double coded" into the industrial schemes of the current and previous census year.  The original Census Bureau crosswalks are available via links in "Occupation and Industry Variables" of the IPUMS documentation. 
+
+Using the information from the industrial crosswalks, we traced the proportion of each industry as it broke out into more specific industries or as it was combined with others into a more general industry.  To take one example from the technical paper produced after the 2000 census: of persons coded in "Footwear" in 2000 (2000 code 177), the Census Bureau determined that 11% would have been coded as " Other rubber products, and plastics footwear and belting" in 1990 (1990 code 211), while 89% would have been coded as " Footwear, except rubber and plastic" (1990 code 221).  Thus, IND1990 assigns a code of 221 to the cases in the 2000 IPUMS sample having an original 2000 IND value of 177.  We generated the same information for every industrial code in every census year from 1950-2000.]]></txt>
+  <catgry>
+    <catValu>000</catValu>
+    <labl>N/A (not applicable)</labl>
+  </catgry>
+  <catgry>
+    <catValu>010</catValu>
+    <labl>Agricultural production, crops</labl>
+  </catgry>
+  <catgry>
+    <catValu>011</catValu>
+    <labl>Agricultural production, livestock</labl>
+  </catgry>
+  <catgry>
+    <catValu>012</catValu>
+    <labl>Veterinary services</labl>
+  </catgry>
+  <catgry>
+    <catValu>020</catValu>
+    <labl>Landscape and horticultural services</labl>
+  </catgry>
+  <catgry>
+    <catValu>030</catValu>
+    <labl>Agricultural services, n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>031</catValu>
+    <labl>Forestry</labl>
+  </catgry>
+  <catgry>
+    <catValu>032</catValu>
+    <labl>Fishing, hunting, and trapping</labl>
+  </catgry>
+  <catgry>
+    <catValu>040</catValu>
+    <labl>Metal mining</labl>
+  </catgry>
+  <catgry>
+    <catValu>041</catValu>
+    <labl>Coal mining</labl>
+  </catgry>
+  <catgry>
+    <catValu>042</catValu>
+    <labl>Oil and gas extraction</labl>
+  </catgry>
+  <catgry>
+    <catValu>050</catValu>
+    <labl>Nonmetallic mining and quarrying, except fuels</labl>
+  </catgry>
+  <catgry>
+    <catValu>060</catValu>
+    <labl>All construction</labl>
+  </catgry>
+  <catgry>
+    <catValu>100</catValu>
+    <labl>Meat products</labl>
+  </catgry>
+  <catgry>
+    <catValu>101</catValu>
+    <labl>Dairy products</labl>
+  </catgry>
+  <catgry>
+    <catValu>102</catValu>
+    <labl>Canned, frozen, and preserved fruits and vegetables</labl>
+  </catgry>
+  <catgry>
+    <catValu>110</catValu>
+    <labl>Grain mill products</labl>
+  </catgry>
+  <catgry>
+    <catValu>111</catValu>
+    <labl>Bakery products</labl>
+  </catgry>
+  <catgry>
+    <catValu>112</catValu>
+    <labl>Sugar and confectionery products</labl>
+  </catgry>
+  <catgry>
+    <catValu>120</catValu>
+    <labl>Beverage industries</labl>
+  </catgry>
+  <catgry>
+    <catValu>121</catValu>
+    <labl>Misc. food preparations and kindred products</labl>
+  </catgry>
+  <catgry>
+    <catValu>122</catValu>
+    <labl>Food industries, n.s.</labl>
+  </catgry>
+  <catgry>
+    <catValu>130</catValu>
+    <labl>Tobacco manufactures</labl>
+  </catgry>
+  <catgry>
+    <catValu>132</catValu>
+    <labl>Knitting mills</labl>
+  </catgry>
+  <catgry>
+    <catValu>140</catValu>
+    <labl>Dyeing and finishing textiles, except wool and knit goods</labl>
+  </catgry>
+  <catgry>
+    <catValu>141</catValu>
+    <labl>Carpets and rugs</labl>
+  </catgry>
+  <catgry>
+    <catValu>142</catValu>
+    <labl>Yarn, thread, and fabric mills</labl>
+  </catgry>
+  <catgry>
+    <catValu>150</catValu>
+    <labl>Miscellaneous textile mill products</labl>
+  </catgry>
+  <catgry>
+    <catValu>151</catValu>
+    <labl>Apparel and accessories, except knit</labl>
+  </catgry>
+  <catgry>
+    <catValu>152</catValu>
+    <labl>Miscellaneous fabricated textile products</labl>
+  </catgry>
+  <catgry>
+    <catValu>160</catValu>
+    <labl>Pulp, paper, and paperboard mills</labl>
+  </catgry>
+  <catgry>
+    <catValu>161</catValu>
+    <labl>Miscellaneous paper and pulp products</labl>
+  </catgry>
+  <catgry>
+    <catValu>162</catValu>
+    <labl>Paperboard containers and boxes</labl>
+  </catgry>
+  <catgry>
+    <catValu>171</catValu>
+    <labl>Newspaper publishing and printing</labl>
+  </catgry>
+  <catgry>
+    <catValu>172</catValu>
+    <labl>Printing, publishing, and allied industries, except newspapers</labl>
+  </catgry>
+  <catgry>
+    <catValu>180</catValu>
+    <labl>Plastics, synthetics, and resins</labl>
+  </catgry>
+  <catgry>
+    <catValu>181</catValu>
+    <labl>Drugs</labl>
+  </catgry>
+  <catgry>
+    <catValu>182</catValu>
+    <labl>Soaps and cosmetics</labl>
+  </catgry>
+  <catgry>
+    <catValu>190</catValu>
+    <labl>Paints, varnishes, and related products</labl>
+  </catgry>
+  <catgry>
+    <catValu>191</catValu>
+    <labl>Agricultural chemicals</labl>
+  </catgry>
+  <catgry>
+    <catValu>192</catValu>
+    <labl>Industrial and miscellaneous chemicals</labl>
+  </catgry>
+  <catgry>
+    <catValu>200</catValu>
+    <labl>Petroleum refining</labl>
+  </catgry>
+  <catgry>
+    <catValu>201</catValu>
+    <labl>Miscellaneous petroleum and coal products</labl>
+  </catgry>
+  <catgry>
+    <catValu>210</catValu>
+    <labl>Tires and inner tubes</labl>
+  </catgry>
+  <catgry>
+    <catValu>211</catValu>
+    <labl>Other rubber products, and plastics footwear and belting</labl>
+  </catgry>
+  <catgry>
+    <catValu>212</catValu>
+    <labl>Miscellaneous plastics products</labl>
+  </catgry>
+  <catgry>
+    <catValu>220</catValu>
+    <labl>Leather tanning and finishing</labl>
+  </catgry>
+  <catgry>
+    <catValu>221</catValu>
+    <labl>Footwear, except rubber and plastic</labl>
+  </catgry>
+  <catgry>
+    <catValu>222</catValu>
+    <labl>Leather products, except footwear</labl>
+  </catgry>
+  <catgry>
+    <catValu>230</catValu>
+    <labl>Logging</labl>
+  </catgry>
+  <catgry>
+    <catValu>231</catValu>
+    <labl>Sawmills, planing mills, and millwork</labl>
+  </catgry>
+  <catgry>
+    <catValu>232</catValu>
+    <labl>Wood buildings and mobile homes</labl>
+  </catgry>
+  <catgry>
+    <catValu>241</catValu>
+    <labl>Miscellaneous wood products</labl>
+  </catgry>
+  <catgry>
+    <catValu>242</catValu>
+    <labl>Furniture and fixtures</labl>
+  </catgry>
+  <catgry>
+    <catValu>250</catValu>
+    <labl>Glass and glass products</labl>
+  </catgry>
+  <catgry>
+    <catValu>251</catValu>
+    <labl>Cement, concrete, gypsum, and plaster products</labl>
+  </catgry>
+  <catgry>
+    <catValu>252</catValu>
+    <labl>Structural clay products</labl>
+  </catgry>
+  <catgry>
+    <catValu>261</catValu>
+    <labl>Pottery and related products</labl>
+  </catgry>
+  <catgry>
+    <catValu>262</catValu>
+    <labl>Misc. nonmetallic mineral and stone products</labl>
+  </catgry>
+  <catgry>
+    <catValu>270</catValu>
+    <labl>Blast furnaces, steelworks, rolling and finishing mills</labl>
+  </catgry>
+  <catgry>
+    <catValu>271</catValu>
+    <labl>Iron and steel foundries</labl>
+  </catgry>
+  <catgry>
+    <catValu>272</catValu>
+    <labl>Primary aluminum industries</labl>
+  </catgry>
+  <catgry>
+    <catValu>280</catValu>
+    <labl>Other primary metal industries</labl>
+  </catgry>
+  <catgry>
+    <catValu>281</catValu>
+    <labl>Cutlery, handtools, and general hardware</labl>
+  </catgry>
+  <catgry>
+    <catValu>282</catValu>
+    <labl>Fabricated structural metal products</labl>
+  </catgry>
+  <catgry>
+    <catValu>290</catValu>
+    <labl>Screw machine products</labl>
+  </catgry>
+  <catgry>
+    <catValu>291</catValu>
+    <labl>Metal forgings and stampings</labl>
+  </catgry>
+  <catgry>
+    <catValu>292</catValu>
+    <labl>Ordnance</labl>
+  </catgry>
+  <catgry>
+    <catValu>300</catValu>
+    <labl>Miscellaneous fabricated metal products</labl>
+  </catgry>
+  <catgry>
+    <catValu>301</catValu>
+    <labl>Metal industries, n.s.</labl>
+  </catgry>
+  <catgry>
+    <catValu>310</catValu>
+    <labl>Engines and turbines</labl>
+  </catgry>
+  <catgry>
+    <catValu>311</catValu>
+    <labl>Farm machinery and equipment</labl>
+  </catgry>
+  <catgry>
+    <catValu>312</catValu>
+    <labl>Construction and material handling machines</labl>
+  </catgry>
+  <catgry>
+    <catValu>320</catValu>
+    <labl>Metalworking machinery</labl>
+  </catgry>
+  <catgry>
+    <catValu>321</catValu>
+    <labl>Office and accounting machines</labl>
+  </catgry>
+  <catgry>
+    <catValu>322</catValu>
+    <labl>Computers and related equipment</labl>
+  </catgry>
+  <catgry>
+    <catValu>331</catValu>
+    <labl>Machinery, except electrical, n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>332</catValu>
+    <labl>Machinery, n.s.</labl>
+  </catgry>
+  <catgry>
+    <catValu>340</catValu>
+    <labl>Household appliances</labl>
+  </catgry>
+  <catgry>
+    <catValu>341</catValu>
+    <labl>Radio, TV, and communication equipment</labl>
+  </catgry>
+  <catgry>
+    <catValu>342</catValu>
+    <labl>Electrical machinery, equipment, and supplies, n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>350</catValu>
+    <labl>Electrical machinery, equipment, and supplies, n.s.</labl>
+  </catgry>
+  <catgry>
+    <catValu>351</catValu>
+    <labl>Motor vehicles and motor vehicle equipment</labl>
+  </catgry>
+  <catgry>
+    <catValu>352</catValu>
+    <labl>Aircraft and parts</labl>
+  </catgry>
+  <catgry>
+    <catValu>360</catValu>
+    <labl>Ship and boat building and repairing</labl>
+  </catgry>
+  <catgry>
+    <catValu>361</catValu>
+    <labl>Railroad locomotives and equipment</labl>
+  </catgry>
+  <catgry>
+    <catValu>362</catValu>
+    <labl>Guided missiles, space vehicles, and parts</labl>
+  </catgry>
+  <catgry>
+    <catValu>370</catValu>
+    <labl>Cycles and miscellaneous transportation equipment</labl>
+  </catgry>
+  <catgry>
+    <catValu>371</catValu>
+    <labl>Scientific and controlling instruments</labl>
+  </catgry>
+  <catgry>
+    <catValu>372</catValu>
+    <labl>Medical, dental, and optical instruments and supplies</labl>
+  </catgry>
+  <catgry>
+    <catValu>380</catValu>
+    <labl>Photographic equipment and supplies</labl>
+  </catgry>
+  <catgry>
+    <catValu>381</catValu>
+    <labl>Watches, clocks, and clockwork operated devices</labl>
+  </catgry>
+  <catgry>
+    <catValu>390</catValu>
+    <labl>Toys, amusement, and sporting goods</labl>
+  </catgry>
+  <catgry>
+    <catValu>391</catValu>
+    <labl>Miscellaneous manufacturing industries</labl>
+  </catgry>
+  <catgry>
+    <catValu>392</catValu>
+    <labl>Manufacturing industries, n.s.</labl>
+  </catgry>
+  <catgry>
+    <catValu>400</catValu>
+    <labl>Railroads</labl>
+  </catgry>
+  <catgry>
+    <catValu>401</catValu>
+    <labl>Bus service and urban transit</labl>
+  </catgry>
+  <catgry>
+    <catValu>402</catValu>
+    <labl>Taxicab service</labl>
+  </catgry>
+  <catgry>
+    <catValu>410</catValu>
+    <labl>Trucking service</labl>
+  </catgry>
+  <catgry>
+    <catValu>411</catValu>
+    <labl>Warehousing and storage</labl>
+  </catgry>
+  <catgry>
+    <catValu>412</catValu>
+    <labl>U.S. Postal Service</labl>
+  </catgry>
+  <catgry>
+    <catValu>420</catValu>
+    <labl>Water transportation</labl>
+  </catgry>
+  <catgry>
+    <catValu>421</catValu>
+    <labl>Air transportation</labl>
+  </catgry>
+  <catgry>
+    <catValu>422</catValu>
+    <labl>Pipe lines, except natural gas</labl>
+  </catgry>
+  <catgry>
+    <catValu>432</catValu>
+    <labl>Services incidental to transportation</labl>
+  </catgry>
+  <catgry>
+    <catValu>440</catValu>
+    <labl>Radio and television broadcasting and cable</labl>
+  </catgry>
+  <catgry>
+    <catValu>441</catValu>
+    <labl>Telephone communications</labl>
+  </catgry>
+  <catgry>
+    <catValu>442</catValu>
+    <labl>Telegraph and miscellaneous communications services</labl>
+  </catgry>
+  <catgry>
+    <catValu>450</catValu>
+    <labl>Electric light and power</labl>
+  </catgry>
+  <catgry>
+    <catValu>451</catValu>
+    <labl>Gas and steam supply systems</labl>
+  </catgry>
+  <catgry>
+    <catValu>452</catValu>
+    <labl>Electric and gas, and other combinations</labl>
+  </catgry>
+  <catgry>
+    <catValu>470</catValu>
+    <labl>Water supply and irrigation</labl>
+  </catgry>
+  <catgry>
+    <catValu>471</catValu>
+    <labl>Sanitary services</labl>
+  </catgry>
+  <catgry>
+    <catValu>472</catValu>
+    <labl>Utilities, n.s.</labl>
+  </catgry>
+  <catgry>
+    <catValu>500</catValu>
+    <labl>Motor vehicles and equipment</labl>
+  </catgry>
+  <catgry>
+    <catValu>501</catValu>
+    <labl>Furniture and home furnishings</labl>
+  </catgry>
+  <catgry>
+    <catValu>502</catValu>
+    <labl>Lumber and construction materials</labl>
+  </catgry>
+  <catgry>
+    <catValu>510</catValu>
+    <labl>Professional and commercial equipment and supplies</labl>
+  </catgry>
+  <catgry>
+    <catValu>511</catValu>
+    <labl>Metals and minerals, except petroleum</labl>
+  </catgry>
+  <catgry>
+    <catValu>512</catValu>
+    <labl>Electrical goods</labl>
+  </catgry>
+  <catgry>
+    <catValu>521</catValu>
+    <labl>Hardware, plumbing and heating supplies</labl>
+  </catgry>
+  <catgry>
+    <catValu>530</catValu>
+    <labl>Machinery, equipment, and supplies</labl>
+  </catgry>
+  <catgry>
+    <catValu>531</catValu>
+    <labl>Scrap and waste materials</labl>
+  </catgry>
+  <catgry>
+    <catValu>532</catValu>
+    <labl>Miscellaneous wholesale, durable goods</labl>
+  </catgry>
+  <catgry>
+    <catValu>540</catValu>
+    <labl>Paper and paper products</labl>
+  </catgry>
+  <catgry>
+    <catValu>541</catValu>
+    <labl>Drugs, chemicals, and allied products</labl>
+  </catgry>
+  <catgry>
+    <catValu>542</catValu>
+    <labl>Apparel, fabrics, and notions</labl>
+  </catgry>
+  <catgry>
+    <catValu>550</catValu>
+    <labl>Groceries and related products</labl>
+  </catgry>
+  <catgry>
+    <catValu>551</catValu>
+    <labl>Farm-product raw materials</labl>
+  </catgry>
+  <catgry>
+    <catValu>552</catValu>
+    <labl>Petroleum products</labl>
+  </catgry>
+  <catgry>
+    <catValu>560</catValu>
+    <labl>Alcoholic beverages</labl>
+  </catgry>
+  <catgry>
+    <catValu>561</catValu>
+    <labl>Farm supplies</labl>
+  </catgry>
+  <catgry>
+    <catValu>562</catValu>
+    <labl>Miscellaneous wholesale, nondurable goods</labl>
+  </catgry>
+  <catgry>
+    <catValu>571</catValu>
+    <labl>Wholesale trade, n.s.</labl>
+  </catgry>
+  <catgry>
+    <catValu>580</catValu>
+    <labl>Lumber and building material retailing</labl>
+  </catgry>
+  <catgry>
+    <catValu>581</catValu>
+    <labl>Hardware stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>582</catValu>
+    <labl>Retail nurseries and garden stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>590</catValu>
+    <labl>Mobile home dealers</labl>
+  </catgry>
+  <catgry>
+    <catValu>591</catValu>
+    <labl>Department stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>592</catValu>
+    <labl>Variety stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>600</catValu>
+    <labl>Miscellaneous general merchandise stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>601</catValu>
+    <labl>Grocery stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>602</catValu>
+    <labl>Dairy products stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>610</catValu>
+    <labl>Retail bakeries</labl>
+  </catgry>
+  <catgry>
+    <catValu>611</catValu>
+    <labl>Food stores, n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>612</catValu>
+    <labl>Motor vehicle dealers</labl>
+  </catgry>
+  <catgry>
+    <catValu>620</catValu>
+    <labl>Auto and home supply stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>621</catValu>
+    <labl>Gasoline service stations</labl>
+  </catgry>
+  <catgry>
+    <catValu>622</catValu>
+    <labl>Miscellaneous vehicle dealers</labl>
+  </catgry>
+  <catgry>
+    <catValu>623</catValu>
+    <labl>Apparel and accessory stores, except shoe</labl>
+  </catgry>
+  <catgry>
+    <catValu>630</catValu>
+    <labl>Shoe stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>631</catValu>
+    <labl>Furniture and home furnishings stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>632</catValu>
+    <labl>Household appliance stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>633</catValu>
+    <labl>Radio, TV, and computer stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>640</catValu>
+    <labl>Music stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>641</catValu>
+    <labl>Eating and drinking places</labl>
+  </catgry>
+  <catgry>
+    <catValu>642</catValu>
+    <labl>Drug stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>650</catValu>
+    <labl>Liquor stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>651</catValu>
+    <labl>Sporting goods, bicycles, and hobby stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>652</catValu>
+    <labl>Book and stationery stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>660</catValu>
+    <labl>Jewelry stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>661</catValu>
+    <labl>Gift, novelty, and souvenir shops</labl>
+  </catgry>
+  <catgry>
+    <catValu>662</catValu>
+    <labl>Sewing, needlework, and piece goods stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>663</catValu>
+    <labl>Catalog and mail order houses</labl>
+  </catgry>
+  <catgry>
+    <catValu>670</catValu>
+    <labl>Vending machine operators</labl>
+  </catgry>
+  <catgry>
+    <catValu>671</catValu>
+    <labl>Direct selling establishments</labl>
+  </catgry>
+  <catgry>
+    <catValu>672</catValu>
+    <labl>Fuel dealers</labl>
+  </catgry>
+  <catgry>
+    <catValu>681</catValu>
+    <labl>Retail florists</labl>
+  </catgry>
+  <catgry>
+    <catValu>682</catValu>
+    <labl>Miscellaneous retail stores</labl>
+  </catgry>
+  <catgry>
+    <catValu>691</catValu>
+    <labl>Retail trade, n.s.</labl>
+  </catgry>
+  <catgry>
+    <catValu>700</catValu>
+    <labl>Banking</labl>
+  </catgry>
+  <catgry>
+    <catValu>701</catValu>
+    <labl>Savings institutions, including credit unions</labl>
+  </catgry>
+  <catgry>
+    <catValu>702</catValu>
+    <labl>Credit agencies, n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>710</catValu>
+    <labl>Security, commodity brokerage, and investment companies</labl>
+  </catgry>
+  <catgry>
+    <catValu>711</catValu>
+    <labl>Insurance</labl>
+  </catgry>
+  <catgry>
+    <catValu>712</catValu>
+    <labl>Real estate, including real estate-insurance offices</labl>
+  </catgry>
+  <catgry>
+    <catValu>721</catValu>
+    <labl>Advertising</labl>
+  </catgry>
+  <catgry>
+    <catValu>722</catValu>
+    <labl>Services to dwellings and other buildings</labl>
+  </catgry>
+  <catgry>
+    <catValu>731</catValu>
+    <labl>Personnel supply services</labl>
+  </catgry>
+  <catgry>
+    <catValu>732</catValu>
+    <labl>Computer and data processing services</labl>
+  </catgry>
+  <catgry>
+    <catValu>740</catValu>
+    <labl>Detective and protective services</labl>
+  </catgry>
+  <catgry>
+    <catValu>741</catValu>
+    <labl>Business services, n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>742</catValu>
+    <labl>Automotive rental and leasing, without drivers</labl>
+  </catgry>
+  <catgry>
+    <catValu>750</catValu>
+    <labl>Automobile parking and carwashes</labl>
+  </catgry>
+  <catgry>
+    <catValu>751</catValu>
+    <labl>Automotive repair and related services</labl>
+  </catgry>
+  <catgry>
+    <catValu>752</catValu>
+    <labl>Electrical repair shops</labl>
+  </catgry>
+  <catgry>
+    <catValu>760</catValu>
+    <labl>Miscellaneous repair services</labl>
+  </catgry>
+  <catgry>
+    <catValu>761</catValu>
+    <labl>Private households</labl>
+  </catgry>
+  <catgry>
+    <catValu>762</catValu>
+    <labl>Hotels and motels</labl>
+  </catgry>
+  <catgry>
+    <catValu>770</catValu>
+    <labl>Lodging places, except hotels and motels</labl>
+  </catgry>
+  <catgry>
+    <catValu>771</catValu>
+    <labl>Laundry, cleaning, and garment services</labl>
+  </catgry>
+  <catgry>
+    <catValu>772</catValu>
+    <labl>Beauty shops</labl>
+  </catgry>
+  <catgry>
+    <catValu>780</catValu>
+    <labl>Barber shops</labl>
+  </catgry>
+  <catgry>
+    <catValu>781</catValu>
+    <labl>Funeral service and crematories</labl>
+  </catgry>
+  <catgry>
+    <catValu>782</catValu>
+    <labl>Shoe repair shops</labl>
+  </catgry>
+  <catgry>
+    <catValu>790</catValu>
+    <labl>Dressmaking shops</labl>
+  </catgry>
+  <catgry>
+    <catValu>791</catValu>
+    <labl>Miscellaneous personal services</labl>
+  </catgry>
+  <catgry>
+    <catValu>800</catValu>
+    <labl>Theaters and motion pictures</labl>
+  </catgry>
+  <catgry>
+    <catValu>801</catValu>
+    <labl>Video tape rental</labl>
+  </catgry>
+  <catgry>
+    <catValu>802</catValu>
+    <labl>Bowling centers</labl>
+  </catgry>
+  <catgry>
+    <catValu>810</catValu>
+    <labl>Miscellaneous entertainment and recreation services</labl>
+  </catgry>
+  <catgry>
+    <catValu>812</catValu>
+    <labl>Offices and clinics of physicians</labl>
+  </catgry>
+  <catgry>
+    <catValu>820</catValu>
+    <labl>Offices and clinics of dentists</labl>
+  </catgry>
+  <catgry>
+    <catValu>821</catValu>
+    <labl>Offices and clinics of chiropractors</labl>
+  </catgry>
+  <catgry>
+    <catValu>822</catValu>
+    <labl>Offices and clinics of optometrists</labl>
+  </catgry>
+  <catgry>
+    <catValu>830</catValu>
+    <labl>Offices and clinics of health practitioners, n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>831</catValu>
+    <labl>Hospitals</labl>
+  </catgry>
+  <catgry>
+    <catValu>832</catValu>
+    <labl>Nursing and personal care facilities</labl>
+  </catgry>
+  <catgry>
+    <catValu>840</catValu>
+    <labl>Health services, n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>841</catValu>
+    <labl>Legal services</labl>
+  </catgry>
+  <catgry>
+    <catValu>842</catValu>
+    <labl>Elementary and secondary schools</labl>
+  </catgry>
+  <catgry>
+    <catValu>850</catValu>
+    <labl>Colleges and universities</labl>
+  </catgry>
+  <catgry>
+    <catValu>851</catValu>
+    <labl>Vocational schools</labl>
+  </catgry>
+  <catgry>
+    <catValu>852</catValu>
+    <labl>Libraries</labl>
+  </catgry>
+  <catgry>
+    <catValu>860</catValu>
+    <labl>Educational services, n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>861</catValu>
+    <labl>Job training and vocational rehabilitation services</labl>
+  </catgry>
+  <catgry>
+    <catValu>862</catValu>
+    <labl>Child day care services</labl>
+  </catgry>
+  <catgry>
+    <catValu>863</catValu>
+    <labl>Family child care homes</labl>
+  </catgry>
+  <catgry>
+    <catValu>870</catValu>
+    <labl>Residential care facilities, without nursing</labl>
+  </catgry>
+  <catgry>
+    <catValu>871</catValu>
+    <labl>Social services, n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>872</catValu>
+    <labl>Museums, art galleries, and zoos</labl>
+  </catgry>
+  <catgry>
+    <catValu>873</catValu>
+    <labl>Labor unions</labl>
+  </catgry>
+  <catgry>
+    <catValu>880</catValu>
+    <labl>Religious organizations</labl>
+  </catgry>
+  <catgry>
+    <catValu>881</catValu>
+    <labl>Membership organizations, n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>882</catValu>
+    <labl>Engineering, architectural, and surveying services</labl>
+  </catgry>
+  <catgry>
+    <catValu>890</catValu>
+    <labl>Accounting, auditing, and bookkeeping services</labl>
+  </catgry>
+  <catgry>
+    <catValu>891</catValu>
+    <labl>Research, development, and testing services</labl>
+  </catgry>
+  <catgry>
+    <catValu>892</catValu>
+    <labl>Management and public relations services</labl>
+  </catgry>
+  <catgry>
+    <catValu>893</catValu>
+    <labl>Miscellaneous professional and related services</labl>
+  </catgry>
+  <catgry>
+    <catValu>900</catValu>
+    <labl>Executive and legislative offices</labl>
+  </catgry>
+  <catgry>
+    <catValu>901</catValu>
+    <labl>General government, n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>910</catValu>
+    <labl>Justice, public order, and safety</labl>
+  </catgry>
+  <catgry>
+    <catValu>921</catValu>
+    <labl>Public finance, taxation, and monetary policy</labl>
+  </catgry>
+  <catgry>
+    <catValu>922</catValu>
+    <labl>Administration of human resources programs</labl>
+  </catgry>
+  <catgry>
+    <catValu>930</catValu>
+    <labl>Administration of environmental quality and housing programs</labl>
+  </catgry>
+  <catgry>
+    <catValu>931</catValu>
+    <labl>Administration of economic programs</labl>
+  </catgry>
+  <catgry>
+    <catValu>932</catValu>
+    <labl>National security and international affairs</labl>
+  </catgry>
+  <catgry>
+    <catValu>940</catValu>
+    <labl>Army</labl>
+  </catgry>
+  <catgry>
+    <catValu>941</catValu>
+    <labl>Air Force</labl>
+  </catgry>
+  <catgry>
+    <catValu>942</catValu>
+    <labl>Navy</labl>
+  </catgry>
+  <catgry>
+    <catValu>950</catValu>
+    <labl>Marines</labl>
+  </catgry>
+  <catgry>
+    <catValu>951</catValu>
+    <labl>Coast Guard</labl>
+  </catgry>
+  <catgry>
+    <catValu>952</catValu>
+    <labl>Armed Forces, branch not specified</labl>
+  </catgry>
+  <catgry>
+    <catValu>960</catValu>
+    <labl>Military Reserves or National Guard</labl>
+  </catgry>
+  <catgry>
+    <catValu>992</catValu>
+    <labl>Last worked 5+ years ago(1980-2007)/10+ years ago (1970 only) or never worked(2008-2017)</labl>
+  </catgry>
+  <catgry>
+    <catValu>999</catValu>
+    <labl>DID NOT RESPOND</labl>
+  </catgry>
+  <concept vocab="IPUMS">Work Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
 <var ID="INCTOT" dcml="0" files="ExtractData" intrvl="contin" name="INCTOT">
-  <location EndPos="113" StartPos="107" width="7"/>
+  <location EndPos="116" StartPos="110" width="7"/>
   <labl>Total personal income</labl>
   <txt><![CDATA[INCTOT reports each respondent's total pre-tax personal income or losses from all sources for the previous year. The censuses collected information on income received from these sources during the previous calendar year; for the ACS and the PRCS, the reference period was the past 12 months. Amounts are expressed in contemporary dollars, and users studying change over time must adjust for inflation:
 
@@ -8822,7 +9819,7 @@ INCTOT Specific Variable Codes
   <varFormat schema="other" type="numeric"/>
 </var>
 <var ID="VETSTAT" dcml="0" files="ExtractData" intrvl="discrete" name="VETSTAT">
-  <location EndPos="114" StartPos="114" width="1"/>
+  <location EndPos="117" StartPos="117" width="1"/>
   <labl>Veteran status [general version]</labl>
   <txt><![CDATA[
 Overview of Veteran Variables
@@ -8866,7 +9863,7 @@ Results based on the IPUMS data likewise differ from published reports by the Ce
   <varFormat schema="other" type="numeric"/>
 </var>
 <var ID="VETSTATD" dcml="0" files="ExtractData" intrvl="discrete" name="VETSTATD">
-  <location EndPos="116" StartPos="115" width="2"/>
+  <location EndPos="119" StartPos="118" width="2"/>
   <labl>Veteran status [detailed version]</labl>
   <txt><![CDATA[
 Overview of Veteran Variables
