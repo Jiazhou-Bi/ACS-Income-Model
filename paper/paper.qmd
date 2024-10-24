@@ -92,226 +92,38 @@ These are the counts of crimes identified as cleared. In plain words, these are 
 ## Case_Clearing_Rate
 This column was not included in the raw dataset but was created by dividing the cleared crimes by total crimes. A higher case-clearing rate for a particular subtype of crime usually suggests a higher effectiveness of law enforcement in dealing with this subtype of crime. The value is ranged from 0 to 100%.
 
+# Model
+
+Our modeling strategy aims to explore the relationship between occupation, age, gender, education, and income. To achieve this, we implemented three models: Linear Regression with Interaction Terms, Random Forest, and XGBoost, each selected based on their specific strengths for predictive accuracy and interpretability.
+
+## Linear Regression Model with Interaction Term
+
+
+## Random Forest 
+
+
+## XGBoost
+
+
+
 # Results
-## Trend of Reported Cases by Year
-During this ten-year-period (2014 - 2023), the overall cases reported in Toronto have increased significantly, from 113,426 in 2014 to 169,620 in 2023. Meanwhile, a noticeable decrease in reported crime counts dropped in 2020 (118,568 cases) and 2021 (120,397 cases) compared to 2019 (144,529 cases). @tbl-table4 below shows the aggregated counts of reported crimes, grouped by their reported years.
-
-```{python}
-#| echo: false
-#| warning: false
-#| label: tbl-table4
-#| tbl-cap: Counts of Reported Crimes by Year
-
-import pandas as pd
-import matplotlib.pyplot as plt
-df = pd.read_csv('/Users/jiazhoubi/Desktop/UT MI/INF 3104/reported-crime/data/analysis_data/analysis_data.csv')
-
-grouped_by_year_df = df.groupby('Year')['Count'].sum().reset_index()
-grouped_by_year_df.index = grouped_by_year_df.index +1 
-grouped_by_year_df
-```
-
-The @fig-figure1 below depicts the changing pattern of reported crimes per year.
-
-```{python}
-#| echo: false
-#| warning: false
-#| label: fig-figure1
-#| fig-cap: Trend of Counts of Reported Crimes by Year
-import pandas as pd
-import matplotlib.pyplot as plt
-
-plt.figure(figsize = (10,6))
-plt.plot(grouped_by_year_df['Year'], grouped_by_year_df['Count'], marker = 'o', linestyle = 'solid')
-plt.xlabel('Year of The Cases Being Reported')
-plt.ylabel('Number of Caese Being Reported')
-#plt.title('Count of Reported Cases by Year')
-plt.xticks(grouped_by_year_df['Year'])
-plt.grid(True)
-plt.show()
-```
-
-## Trend of Reported Cases per Category by Year
-Among all the six categories, crimes against property have a significantly higher count than all the other categories. In 2023, 119,629 crimes against property were reported, compared to the second highest count, crimes against the person, with 29,892 cases. Below is a table of the count of reported crimes for each category for 2014, 2020, and 2023, as well as a line chart for the fluctuating trend. The @tbl-table5 below shows the reported cases for each category for 2014, 2020, and 2023, respectively.
-
-```{python}
-#| echo: false
-#| warning: false
-#| label: tbl-table5
-#| tbl-cap: Trend of Reported Cases per Category in 2014, 2020, and 2023
-import pandas as pd
-df = pd.read_csv('/Users/jiazhoubi/Desktop/UT MI/INF 3104/reported-crime/data/analysis_data/analysis_data.csv')
-
-grouped_by_year_category_df = df.groupby(['Year', 'Category'])['Count'].sum().reset_index()
-filtered_df = grouped_by_year_category_df[grouped_by_year_category_df['Year'].isin([2014, 2020, 2023])].reset_index()
-filtered_df = filtered_df.drop(columns=['index',])
-filtered_df.index = filtered_df.index + 1
-filtered_df
-```
-
-The following is @fig-figure2, which shows how the counts of reported crimes varied for each category from 2014 to 2023.
-
-```{python}
-#| echo: false
-#| warning: true
-#| label: fig-figure2
-#| fig-cap: Trend of Reported Cases per Category in 2014, 2020, and 2023
-import pandas as pd
-import matplotlib.pyplot as plt
-plt.figure(figsize=(10, 6))
-for category in grouped_by_year_category_df['Category'].unique():
-    category_data = grouped_by_year_category_df[grouped_by_year_category_df['Category'] == category]
-    plt.plot(category_data['Year'], category_data['Count'], marker='o', linestyle='solid', label=category)
-plt.xlabel('Year of The Cases Being Reported')
-plt.ylabel('Number of Cases Being Reported')
-# plt.title('Count of Reported Cases by Year and Category')
-plt.xticks(grouped_by_year_category_df['Year'].unique())
-plt.legend(title='Category')
-plt.grid(True)
-plt.show()
-```
-
-## Subtype of Crimes Against Property by Year and Their Gorwth Rates
-The overall pattern for each subtype of crimes under crimes against property is comparable to the overall reported crime pattern, with an increase from 2014 to 2023, despite a significant drop in 2020 and 2021. Among all the subtypes within crimes against property, the most commonly reported crime is theft under $5,000. The nominal growth rate between 2014 and 2023 for each subtype is also calculated and attached here in @tbl-table6.
-
-```{python}
-#| echo: false
-#| warning: false
-#| label: tbl-table6
-#| tbl-cap: Growth Rate of Each Crime Against Property Subtype from 2014 to 2023
-import pandas as pd
-df = pd.read_csv('/Users/jiazhoubi/Desktop/UT MI/INF 3104/reported-crime/data/analysis_data/analysis_data.csv')
-
-crime_against_property_df = df[df['Category'] == 'Crimes Against Property']
-#crime_against_property_df.head()
-grouped_by_year_subtype_df = crime_against_property_df.groupby(['Year','Subtype'])['Count'].sum().reset_index()
-grouped_by_year_subtype_2014_and_2023_df = grouped_by_year_subtype_df[grouped_by_year_subtype_df['Year'].isin([2014,2023])].reset_index().drop(columns=['index',])
-grouped_by_year_subtype_2014_and_2023_df.index = grouped_by_year_subtype_2014_and_2023_df.index + 1
-#grouped_by_year_subtype_2014_and_2023_df
-#This table looks awful. Will pivot it.
-pivoted_df = grouped_by_year_subtype_2014_and_2023_df.pivot(index='Subtype', columns='Year', values='Count')
-pivoted_df.reset_index(inplace=True)
-pivoted_df.columns.name = None 
-pivoted_df.columns = ['Subtype', '2014', '2023']
-pivoted_df['Growth Rate'] = (((pivoted_df['2023']-pivoted_df['2014'])/pivoted_df['2014'])*100).round(2)
-pivoted_df['Growth Rate']=pivoted_df['Growth Rate'].astype(str)+'%'
-pivoted_df.index = pivoted_df.index + 1
-pivoted_df
-```
-
-@fig-figure3 here shows the number of reported cases for each subtype of crime against property for 2014 and 2023, side by side, respectively.
-
-```{python}
-#| echo: false
-#| warning: false
-#| label: fig-figure3
-#| fig-cap: Comparison of Reported Subtypes of Crime Against Property Cases (2014 vs 2023)
-import pandas as pd
-import matplotlib.pyplot as plt
-import numpy as np
-df = pd.read_csv('/Users/jiazhoubi/Desktop/UT MI/INF 3104/reported-crime/data/analysis_data/analysis_data.csv')
-
-crime_against_property_df = df[df['Category'] == 'Crimes Against Property']
-#crime_against_property_df.head()
-grouped_by_year_subtype_df = crime_against_property_df.groupby(['Year','Subtype'])['Count'].sum().reset_index()
-grouped_by_year_subtype_2014_and_2023_df = grouped_by_year_subtype_df[grouped_by_year_subtype_df['Year'].isin([2014,2023])].reset_index().drop(columns=['index',])
-grouped_by_year_subtype_2014_and_2023_df.index = grouped_by_year_subtype_2014_and_2023_df.index + 1
-#grouped_by_year_subtype_2014_and_2023_df
-#This table looks awful. Will pivot it.
-pivoted_df = grouped_by_year_subtype_2014_and_2023_df.pivot(index='Subtype', columns='Year', values='Count')
-pivoted_df.reset_index(inplace=True)
-pivoted_df.columns.name = None 
-pivoted_df.columns = ['Subtype', '2014', '2023']
-pivoted_df['Growth Rate'] = (((pivoted_df['2023']-pivoted_df['2014'])/pivoted_df['2014'])*100).round(2)
-pivoted_df['Growth Rate']=pivoted_df['Growth Rate'].astype(str)+'%'
-pivoted_df.index = pivoted_df.index + 1
-
-subtypes = pivoted_df['Subtype']
-counts_2014 = pivoted_df['2014']
-counts_2023 = pivoted_df['2023']
-fig, ax = plt.subplots(figsize=(12, 6))
-bar_width = 0.35
-index = np.arange(len(subtypes))
-bars_2014 = ax.bar(index, counts_2014, bar_width, label='Count in 2014', color='blue')
-bars_2023 = ax.bar(index + bar_width, counts_2023, bar_width, label='Count in 2023', color='green')
-ax.set_xlabel('Subtype')
-ax.set_ylabel('Count of Cases')
-ax.set_xticks(index + bar_width / 2)
-ax.set_xticklabels(subtypes, rotation=45, ha='right')
-ax.legend()
-plt.tight_layout()
-plt.grid(True)
-plt.show()
-```
 
 
-## Crime Subtype Clear Rate from 2014 to 2023 and Its Trend
-The crime-clearing rate has dropped for all subtypes of crimes against the property from 2014 to 2023, ranging from a 10.25% decrease for a break and entry to the apartment to an 87.02% decrease for fraud. The clearing rate for 2014 and 2023 and the change in clear rate for each subtype of crime against property are listed below in @tbl-table7.
-
-```{python}
-#| echo: false
-#| warning: false
-#| label: tbl-table7
-#| tbl-cap: Case Clear Rate and Change from 2014 to 2023 for Crime Against Property Subtypes
-import pandas as pd
-df = pd.read_csv('/Users/jiazhoubi/Desktop/UT MI/INF 3104/reported-crime/data/analysis_data/analysis_data.csv')
-crime_against_property_df = df[df['Category'] == 'Crimes Against Property']
-grouped_by_year_subtype_df = crime_against_property_df.groupby(['Year', 'Subtype'])['ClearRate'].mean().reset_index()
-pivoted_clear_rate_df = grouped_by_year_subtype_df.pivot(index='Subtype', columns='Year', values='ClearRate')
-pivoted_clear_rate_df = pivoted_clear_rate_df[[2014, 2023]]
-pivoted_clear_rate_df['Clear Rate Change'] = (((pivoted_clear_rate_df[2023]-pivoted_clear_rate_df[2014])/pivoted_clear_rate_df[2014])*100).round(2)
-pivoted_clear_rate_df['Clear Rate Change']=pivoted_clear_rate_df['Clear Rate Change'].astype(str)+'%'
-pivoted_clear_rate_df.columns.name = None
-pivoted_clear_rate_df.reset_index(inplace=True)
-pivoted_clear_rate_df.index=pivoted_clear_rate_df.index +1
-pivoted_clear_rate_df
-
-```
-
-@fig-figure4 shows the trend of the change in case clearing rate of each subtype of crime against property from 2014 to 2023.
-
-```{python}
-#| echo: false
-#| warning: false
-#| label: fig-figure4
-#| fig-cap: Trends of Case Clear Rate Change from 2014 to 2023 for Crime Against Property Subtypes
-import pandas as pd
-import matplotlib.pyplot as plt
-df = pd.read_csv('/Users/jiazhoubi/Desktop/UT MI/INF 3104/reported-crime/data/analysis_data/analysis_data.csv')
-crime_against_property_df = df[df['Category'] == 'Crimes Against Property']
-
-grouped_by_year_subtype_df = crime_against_property_df.groupby(['Year','Subtype'])['ClearRate'].mean().reset_index()
-plt.figure(figsize=(10,6))
-for subtype in grouped_by_year_subtype_df['Subtype'].unique():
-    subtype_data = grouped_by_year_subtype_df[grouped_by_year_subtype_df['Subtype'] == subtype]
-    plt.plot(subtype_data['Year'],subtype_data['ClearRate'],marker = 'o', linestyle = 'solid', label=subtype)
-plt.xlabel('Year of The Cases Being Reported')
-plt.ylabel('Clearing Rate of Cases Being Reported')
-plt.xticks(grouped_by_year_subtype_df['Year'].unique())
-plt.legend(title='Subtype',loc = 'upper left',fontsize = 8)
-plt.grid(True)
-plt.show()
-```
 
 # Discussion
-The discussion section contains some speculation for the possible causes of the observed results, as well as some weaknesses and next steps of this study.
 
-## Trends in Crime and the Socio-Economic Influence
-From 2014 to 2023, Toronto experienced significant changes in crime rates, reflecting broader socio-economic trends and specific local conditions. The steady increase in total crime, with a substantial rise from 113,426 cases in 2014 to 169,620 in 2023, partly reflects population growth and the increased digitalization of society. Crimes like theft and property-related offenses are strongly influenced by socio-economic conditions, including unemployment rates and economic hardship, especially during events like the COVID-19 pandemic. Financial instability likely contributed to the rise in financially motivated crimes such as fraud, which saw a sharp increase (124.67% growth rate) during this period, as indicated in Table 6​.
 
-## Impact of the COVID-19 Pandemic
-The effects of the COVID-19 pandemic are reflected in the 2020 and 2021 data. The lockdowns, which reduced public interactions, led to a noticeable decline in traditional crimes like burglaries but fueled an increase in cybercrime and domestic violence. Notably, the pandemic likely caused a shift in crime patterns, with the overall decrease in reported crimes in 2020 (118,568 cases) reflecting fewer opportunities for certain physical crimes​. However, fraud, particularly technology-facilitated fraud, continued to rise, highlighting the changing nature of crime in a digital era​.
-
-## Crime Subtypes and Clear Rates
-Despite the overall increase in reported crime, the clearing rate for most crime subtypes has declined substantially, with fraud experiencing a significant drop, from 38.55% in 2014 to just 4.99% in 2023. This drop might reflect the increasing complexity of investigating technology-facilitated crimes, where criminals are often harder to identify and prosecute​. The decrease in clear rates across all subtypes could suggest that law enforcement resources may struggle to keep pace with the rising volume and sophistication of crimes, particularly in property and financial crimes​.
 
 ## Weaknesses and next steps
-One limitation of the analysis is the aggregation of crime data across various divisions, which might obscure regional differences within Toronto. Future research could benefit from a more granular analysis at the division level to capture localized crime trends and their underlying causes. Furthermore, while this report focuses on quantitative data, a qualitative approach examining the socio-economic drivers in more detail could provide deeper insights into the rise in specific crime subtypes, especially tech-related fraud.
-Another significant weakness is that this dataset only includes reported crimes. Many crimes, such as domestic violence, may go unreported due to fear, shame, or a lack of trust in law enforcement. This underreporting skews the data and limits the ability to understand the prevalence of such crimes fully. A more comprehensive approach would require gathering data from additional sources, such as surveys on victimization, to capture the full scope of criminal activity in Toronto.
-Moving forward, addressing the root causes of crime, particularly economic hardship and digital vulnerabilities, will be crucial in reducing crime rates and improving law enforcement's ability to clear cases. Enhanced training for officers handling digital crimes and investing in technologies to track and combat cybercrimes could improve clearance rates, particularly for fraud cases.
+
 
 \newpage
 
+# Appendix
+
+## Data cleaning
+
+## Model Details
 
 # References
 
