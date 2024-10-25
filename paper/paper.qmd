@@ -130,7 +130,9 @@ To ensure the robustness of our linear regression model, we conducted a series o
 Note that according to our previous analysis in @sec-eda, the interaction term, `EDUC_SEX_INTERACTION`, was included to capture the combined effect of education level and gender on income. This allowed us to model the non-linear relationship between these two variables and their joint impact on the outcome variable.
 
 ::: {#tbl-coefficients}
-**Table 1: Coefficients from the Linear Regression Model**
+\begin{center}
+Table 1: Coefficients from the Linear Regression Model
+\end{center}
 
 | Feature                     | Coefficient |
 |-----------------------------|-------------|
@@ -156,7 +158,9 @@ In evaluating our model's performance, we selected key metrics to assess both it
 The VIF was used to diagnose multicollinearity among predictors, helping us ensure that no variables were highly correlated, which could distort the interpretation of the model's coefficients.
 
 ::: {#tbl-VIF}
-**Table 2: Variance Inflation Factors (VIF) for Predictor Variables**
+\begin{center}
+Table 2: Variance Inflation Factors (VIF) for Predictor Variables
+\end{center}
 
 | Feature                  | VIF       |
 |--------------------------|-----------|
@@ -176,7 +180,9 @@ The VIF was used to diagnose multicollinearity among predictors, helping us ensu
 We chose $R^2$ as it provides a measure of how well the model explains the variance in the dependent variable, making it an important indicator of the model’s explanatory power. The MSE was selected to quantify the average squared difference between observed and predicted values, offering a clear view of the model’s prediction error.
 
 ::: {#tbl-modelperformance}
-**Table 3: Model Performance Metrics**
+\begin{center}
+Table 3: Model Performance Metrics
+\end{center}
 
 | Metric                     | Value              |
 |----------------------------|--------------------|
@@ -209,7 +215,9 @@ To assess the performance of our Random Forest model, we evaluated several key m
 First, we calculated the Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) to assess the overall prediction accuracy of the model. These metrics provided insight into how well the model captured the variance in income based on the selected features.
 
 ::: {#tbl-randomforestMSE}
-**Table 4: Best Random Forest Model Performance Metrics**
+\begin{center}
+Table 4: Best Random Forest Model Performance Metrics
+\end{center}
 
 | Metric          | Value            |
 |-----------------|------------------|
@@ -222,7 +230,9 @@ First, we calculated the Mean Squared Error (MSE) and Root Mean Squared Error (R
 Additionally, we performed a feature importance analysis, which allowed us to understand the relative significance of each predictor variable in determining income. This is particularly useful for verifying that the model identifies the key factors influencing income as expected.
 
 ::: {#tbl-randomforestimportance}
-**Table 5: Feature Importance in the Best Random Forest Model**
+\begin{center}
+Table 5: Feature Importance in the Best Random Forest Model
+\end{center}
 
 | Feature         | Importance |
 |-----------------|------------|
@@ -258,7 +268,9 @@ We implemented the XGBoost model in Python [@cite_python] using the scikit-learn
 Similar to the Random Forest model, the XGBoost model was trained on a 70-30 train-test split. We evaluated the model's performance using Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) to assess its predictive accuracy.
 
 ::: {#tbl-XGBoostMSE}
-**Table 6: XGBoost Model Performance Metrics**
+\begin{center}
+Table 6: XGBoost Model Performance Metrics
+\end{center}
 
 | Metric                         | Value            |
 |--------------------------------|------------------|
@@ -273,7 +285,9 @@ We performed a residual analysis by plotting the residuals against the predicted
 We also performed cross-validation to ensure the robustness of the XGBoost model. This technique allowed us to evaluate the model’s performance across different subsets of the data, helping to confirm that the model generalizes well and is not overly sensitive to any particular portion of the training data.
 
 ::: {#tbl-XGBoostCV}
-**Table 7: XGBoost Cross-Validation Performance**
+\begin{center}
+Table 7: XGBoost Cross-Validation Performance
+\end{center}
 
 | Metric                | Value     |
 |-----------------------|-----------|
