@@ -14,7 +14,7 @@ number-sections: true
 bibliography: references.bib
 ---
 
-# Introduction
+# Introduction {#sec-introduction}
 
 Income is a fundamental concept as it affects nearly every member of society, influencing access to resources, quality of life, and overall economic stability. At the same time, it is also a highly complex concept to define, as it can be interpreted differently depending on various perspectives, such as economic, social, legal, and tax purposes. Therefore, we must examine various demographical factors that may impact income to understand its concept better. Our project defines income as "all forms of net financial resources generated or lost from work, investments, or other activities." This project aims to predict personal income using data from the 2023 American Community Survey (ACS) (@ipums_usa_v15). The ACS provides detailed demographic information, including age, education, employment, marital status, mortgage status, veteran status, etc... As a result, it provides a robust dataset for studying potential factors that may influence income.
 
@@ -26,7 +26,7 @@ We have chosen 2023 ACS dataseet because it offers many demographical details, a
 
 If we can successfully predict personal income using demographic information from the survey, this analysis will be able to contribute to a nuanced understanding of the American economy in 2023. It can help to reveal how demographic changess, educational attainment, and employment status/type can impact personal income. On the other hand, if the model cannot predict personal income with a high degree of confidence, this would suggest that the factors included in the analysiscannot not fully capture the intricacies of economic behavior and individual circumstances. As a result, additional variables, such as detailed education background like school of graduation, languages spoken, health status, etc, might be necessary in accurately predicting income. 
 
-# Data
+# Data {#sec-data}
 
 The dataset used here is downloaded from the Toronto Open Data website via @TorontoOpenData. This dataset contains all the reported crimes that happened in Toronto from 2014 to 2023. This dataset is grouped by the year of the reported crime, its category and belonging subtype, and the count of the subtype being reported and cleared for that year for each division. Because I am examining the crime pattern in the city, I have dropped the division information and aggregated the existing data according to their subtype and the year of the crime being reported. In the following subsections, I will review all the variables used in this report and provide some basic descriptive statistics. The first five rows of the cleaned data used for analysis are attached (@tbl-table1).
 
@@ -95,39 +95,211 @@ These are the counts of crimes identified as cleared. In plain words, these are 
 ## Case_Clearing_Rate
 This column was not included in the raw dataset but was created by dividing the cleared crimes by total crimes. A higher case-clearing rate for a particular subtype of crime usually suggests a higher effectiveness of law enforcement in dealing with this subtype of crime. The value is ranged from 0 to 100%.
 
-# Model
+# Exploratory Data Analysis {#sec-eda}
 
-Our modeling strategy aims to explore the relationship between occupation, age, gender, education, and income. To achieve this, we implemented three models: Linear Regression with Interaction Terms, Random Forest, and XGBoost, each selected based on their specific strengths for predictive accuracy and interpretability.
+# Model {#sec-model}
 
-## Linear Regression Model with Interaction Term
+Our modeling strategy aims to explore the relationship between personal characteristics and income. We implemented three models: Linear Regression with Interaction Terms, Random Forest, and XGBoost, each chosen for their unique strengths in prediction and interpretation.
 
+Background details are included in Appendix @sec-model-details.
 
-## Random Forest 
+## Linear Regression Model with Interaction Term {#sec-linear-regression-model-with-interaction-term}
 
+### Model set-up
 
-## XGBoost
+We implemented a linear regression model with an interaction term to explore the relationship between personal characteristics and income. The general form of the model is:
 
+$$
+y=\beta_0+\beta_1X_1+\beta_2X_2+...+\beta_nX_n+\beta_{\text{interaction}}(X_i\times X_j)+\epsilon
+$$
 
+where:
 
-# Results
+-   y represents the total income (`INCTOT`),
 
+-   $X_1, X_2, ... , X_n$ are the predictor variables, including both categorical and numerical features,
 
+-   $X_i \times X_j$ is the interaction term between education and sex (`EDUC_SEX_INTERACTION`)
 
-# Discussion
+-   $\beta_0$ is the intercept,
 
+-   $\beta_1, \beta_2, ... , \beta_n, \beta_{\text{interaction}}$ are the coefficients for the respective predictors and interaction term.
 
+To ensure the robustness of our linear regression model, we conducted a series of steps aimed at minimizing multicollinearity and improving model interpretability. Initially, we included all relevant predictor variables, both categorical and numerical, to explore the full range of relationships between personal characteristics and income. Next, we calculated the Variance Inflation Factor (VIF) for each predictor to identify potential multicollinearity issues. Typically, a VIF value greater than 10 indicates problematic multicollinearity, which can distort the model's estimates. In our analysis, variables such as `VESTAT` (Veteran Status) and `AGE` had VIF values exceeding 13, suggesting they were highly correlated with other predictors. To address this, we removed these high-VIF variables from the model. Afterward, we refit the linear regression model using the reduced set of predictors, which resulted in improved performance metrics, including a lower Mean Squared Error and a more interpretable set of coefficients.
+
+Note that according to our previous analysis in @#sec-eda, the interaction term, `EDUC_SEX_INTERACTION`, was included to capture the combined effect of education level and gender on income. This allowed us to model the non-linear relationship between these two variables and their joint impact on the outcome variable.
+
+::: {#tbl-coefficients}
+**Table 1: Coefficients from the Linear Regression Model**
+
+| Feature                     | Coefficient |
+|-----------------------------|-------------|
+| `cat__MORTGAGE`             | 9971.56     |
+| `num__AGE`                  | 397.66      |
+| `cat__STATEICP`             | 91.39       |
+| `cat__IND1990`              | -44.49      |
+| `cat__OCC2010`              | -201.61     |
+| `num__EDUC_SEX_INTERACTION` | -2799.42    |
+| `cat__MARST`                | -4929.08    |
+| `cat__GQ`                   | -7172.27    |
+| `cat__SCHLTYPE`             | -14947.02   |
+:::
+
+*Table 1: Linear Regression Coefficients Table.*
+
+We run the model in Python [@cite_python] using the `scikit-learn` package [@cite_sklearn]. We use the default settings for the `LinearRegression` function from `scikit-learn`. We use the `statsmodels` package [@cite_statsmodels] to calculate the VIF for each predictor.
+
+### Model Justification
+
+In evaluating our model's performance, we selected key metrics to assess both its fit and predictive accuracy, including the Variance Inflation Factor (VIF), R-squared ($R^2$), and Mean Squared Error (MSE). These metrics were chosen to provide a comprehensive evaluation of the model's robustness and reliability in capturing the relationship between personal characteristics and income.
+
+The VIF was used to diagnose multicollinearity among predictors, helping us ensure that no variables were highly correlated, which could distort the interpretation of the model's coefficients.
+
+::: {#tbl-VIF}
+**Table 2: Variance Inflation Factors (VIF) for Predictor Variables**
+
+| Feature                     | VIF      |
+|-----------------------------|----------|
+| cat\_\_STATEICP             | 3.874599 |
+| cat\_\_GQ                   | 1.002446 |
+| cat\_\_MORTGAGE             | 2.614057 |
+| cat\_\_MARST                | 1.754080 |
+| cat\_\_SCHLTYPE             | 1.242432 |
+| cat\_\_OCC2010              | 2.953611 |
+| cat\_\_IND1990              | 6.566724 |
+| num\_\_AGE                  | 7.373021 |
+| num\_\_EDUC_SEX_INTERACTION | 7.066118 |
+:::
+
+*Table 2: This table displays the Variance Inflation Factors (VIF) for each of the predictor variables in the model. VIF values greater than 10 indicate potential multicollinearity issues.*
+
+We chose $R^2$ as it provides a measure of how well the model explains the variance in the dependent variable, making it an important indicator of the model’s explanatory power. The MSE was selected to quantify the average squared difference between observed and predicted values, offering a clear view of the model’s prediction error.
+
+::: {#tbl-modelperformance}
+**Table 3: Model Performance Metrics**
+
+| Metric                         | Value            |
+|--------------------------------|------------------|
+| Mean Squared Error (MSE)       | 7,178,302,129.51 |
+| Root Mean Squared Error (RMSE) | 84,724.86        |
+| R-squared                      | 0.11099          |
+| Adjusted R-squared             | 0.11097          |
+:::
+
+*Table 3: This table presents the performance metrics of the linear regression model, including MSE, RMSE, R-squared, and Adjusted R-squared. These metrics are used to assess the model's fit and predictive accuracy.*
+
+Additionally, residual analysis was conducted by plotting residuals against fitted values to check for randomness around zero, ensuring that the model satisfied the assumptions of linearity and homoscedasticity.
+
+We use the statsmodels package [@cite_statsmodels] to calculate the VIF for each predictor. We use the matplotlib [@cite_matplotlib] and seaborn [@seaborn] to visualize the residuals. We use the scikit-learn [@cite_sklearn] package to calculate the $R^2$ score.
+
+## Random Forest Model {#sec-random-forest}
+
+### Model set-up
+
+To analyze the non-linear relationship between personal characteristics and income, we employed a Random Forest model. Random Forest is an ensemble learning method that builds multiple decision trees and averages their predictions, reducing overfitting and capturing complex, non-linear relationships in the data. We utilized Bagging (Bootstrap Aggregating) and random feature selection to enhance model performance and reduce overfitting. Bagging involves generating multiple bootstrap samples from the original training set, with each sample used to train an independent decision tree. By averaging the predictions of multiple trees, Bagging reduces the variance of the model, thereby improving its robustness. Additionally, Random Forest introduces further randomness by selecting a subset of features at each split, which reduces correlation among trees and improves the model’s generalization ability.
+
+To optimize the model, we conducted hyperparameter tuning, focusing on two key parameters: `n_estimators` (the number of trees) and `max_depth` (the maximum depth of each tree). Increasing `n_estimators` typically decreases model variance and improves stability, but too many trees can result in diminishing returns with increased computation time. Initially, we set `n_estimators` to 100, but through Grid Search, we tested values of 100, 200, and 300 and found that 300 trees yielded the best performance. Similarly, the `max_depth` parameter controls the complexity of the trees. While deeper trees can capture more intricate data patterns, they may also overfit. We initially set `max_depth` to 15 and test 10, 15, 20 but found that reducing it to 10 during hyperparameter tuning improved generalization by avoiding overfitting. Additionally, we tuned `min_samples_split` and `min_samples_leaf` to prevent overfitting by ensuring that nodes have a sufficient number of samples before splitting.
+
+We run the model in Python [@cite_python] using the scikit-learn package [@cite_sklearn] and pandas [@pandas]. We used the GridSearchCV function from scikit-learn for hyperparameter tuning and subsampled the training data using pandas. The RandomForestRegressor function from scikit-learn was employed for model fitting.
+
+### Model Justification
+
+To assess the performance of our Random Forest model, we evaluated several key metrics, including Mean Squared Error (MSE), Root Mean Squared Error (RMSE), feature importance, and residual analysis. These evaluations provided insights into the model’s predictive accuracy, interpretability, and overall fit.
+
+First, we calculated the Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) to assess the overall prediction accuracy of the model. These metrics provided insight into how well the model captured the variance in income based on the selected features.
+
+::: {#tbl-randomforestMSE}
+**Table 4: Best Random Forest Model Performance Metrics**
+
+| Metric          | Value            |
+|-----------------|------------------|
+| Best Model MSE  | 6,057,654,880.33 |
+| Best Model RMSE | 77,830.94        |
+:::
+
+*Table 4: This table shows the Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) for the best-tuned Random Forest model, demonstrating the model's performance after hyperparameter tuning.*
+
+Additionally, we performed a feature importance analysis, which allowed us to understand the relative significance of each predictor variable in determining income. This is particularly useful for verifying that the model identifies the key factors influencing income as expected.
+
+::: {#tbl-randomforestimportance}
+**Table 5: Feature Importance in the Best Random Forest Model**
+
+| Feature         | Importance |
+|-----------------|------------|
+| cat\_\_EDUC_new | 0.337465   |
+| cat\_\_IND1990  | 0.243701   |
+| num\_\_AGE      | 0.193615   |
+| cat\_\_SEX      | 0.149471   |
+| cat\_\_MARST    | 0.055754   |
+| cat\_\_MORTGAGE | 0.012897   |
+| cat\_\_SCHLTYPE | 0.004205   |
+| cat\_\_VETSTAT  | 0.002891   |
+| cat\_\_OWNERSHP | 0.000000   |
+:::
+
+*Table 5: This table lists the feature importance values for the best-performing Random Forest model. The higher the importance value, the more significant the feature is in predicting the target variable (income).*
+
+We also conducted a residual analysis by plotting the residuals (the difference between actual and predicted values) against the predicted values. This step helped us evaluate whether the model appropriately captured the underlying patterns in the data, ensuring that there were no significant biases or violations of model assumptions.
+
+The feature importances were extracted from the best model using RandomForestRegressor from scikit-learn [@cite_sklearn] and displayed using pandas [@pandas]. We use the matplotlib [@cite_matplotlib] to visualize the residuals.
+
+## XGBoost {#sec-xgboost}
+
+### Model set-up
+
+XGBoost (Extreme Gradient Boosting) is a powerful machine learning algorithm that builds an ensemble of decision trees using gradient boosting techniques. In gradient boosting, each subsequent tree is trained to correct the residuals of the previous trees, iteratively improving the model’s predictive accuracy. XGBoost enhances this process by incorporating regularization techniques to control overfitting, making it an ideal choice for capturing complex, non-linear relationships in data.
+
+To optimize the performance of our XGBoost model, we employed GridSearchCV to conduct hyperparameter tuning. We explored a range of hyperparameters to find the optimal configuration for our dataset. The grid search included the learning rate (`learning_rata`), max depth (`max_depth`), number of trees (`n_estimators)`, and minimum child weight (`min_child_weight`). Specifically, we tested learning rates of 0.01, 0.05, and 0.1, tree depths of 4, 6, and 8, and `n_estimators` values of 100, 200, and 300. Using GridSearchCV with a cross-validation fold of 3, we systematically evaluated different combinations of these hyperparameters. The model was evaluated using negative Mean Squared Error (MSE) as the scoring metric. The optimal model used a learning rate of `0.1`, a maximum tree depth of `6`, a minimum child weight of `5`, and `300` boosting rounds. This configuration provided a good balance between model complexity and predictive accuracy, capturing important non-linear relationships while minimizing overfitting.
+
+We implemented the XGBoost model in Python [@cite_python] using the scikit-learn package [@cite_sklearn], with pandas [@pandas] for data processing and xgboost [@cite_xgboost] for model fitting. The initial model was trained using default parameters of the XGBRegressor function, which was subsequently fine-tuned using GridSearchCV from scikit-learn [@cite_sklearn] for hyperparameter optimization. 
+
+### Model Justification
+
+Similar to the Random Forest model, the XGBoost model was trained on a 70-30 train-test split. We evaluated the model's performance using Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) to assess its predictive accuracy.
+
+::: {#tbl-XGBoostMSE}
+**Table 6: XGBoost Model Performance Metrics**
+
+| Metric                         | Value            |
+|--------------------------------|------------------|
+| Mean Squared Error (MSE)       | 5,901,467,894.81 |
+| Root Mean Squared Error (RMSE) | 76,821.01        |
+:::
+
+*Table 6: This table shows the Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) for the final XGBoost model, reflecting its predictive accuracy.*
+
+We performed a residual analysis by plotting the residuals against the predicted values to assess the model's fit. This allowed us to check whether the XGBoost model accurately captured the patterns in the data and to verify that no major biases or violations of model assumptions were present.
+
+We also performed cross-validation to ensure the robustness of the XGBoost model. This technique allowed us to evaluate the model’s performance across different subsets of the data, helping to confirm that the model generalizes well and is not overly sensitive to any particular portion of the training data.
+
+::: {#tbl-XGBoostCV}
+**Table 7: XGBoost Cross-Validation Performance**
+
+| Metric                | Value     |
+|-----------------------|-----------|
+| Cross-Validation RMSE | 71,676.11 |
+:::
+
+*Table 7: This table shows the Root Mean Squared Error (RMSE) from cross-validation, demonstrating the model’s performance across different subsets of the data.*
+
+We used matplotlib [@cite_matplotlib] to perform a residual analysis against the predicted values from the XGBoost model. We performed cross-validation using cross_val_score function from scikit-learn  [@cite_sklearn] to evaluate the robustness of the model. 
+
+# Results {#sec-results}
+
+## Liner Regression Model
+
+# Discussion {#sec-discussion}
 
 ## Weaknesses and next steps
 
+\newpage
+
+# Appendix {#sec-appendix}
+
+## Data Cleaning {#sec-data-cleaning}
+
+## Model Details {#sec-model-details}
 
 \newpage
 
-# Appendix
-
-## Data cleaning
-
-## Model Details
-
 # References
-
-
