@@ -136,15 +136,15 @@ Table 1: Coefficients from the Linear Regression Model
 
 | Feature                     | Coefficient |
 |-----------------------------|-------------|
-| `cat__MORTGAGE`             | 11267.90    |
-| `num__AGE`                  | 415.91      |
-| `cat__STATEICP`             | 126.39      |
-| `cat__IND1990`              | -43.18      |
-| `cat__OCC2010`              | -139.55     |
-| `num__EDUC_SEX_INTERACTION` | -1832.32    |
-| `cat__MARST`                | -5541.39    |
-| `cat__GQ`                   | -7956.89    |
-| `cat__SCHLTYPE`             | -16320.74   |
+| cat__MORTGAGE             | 11267.90    |
+| num__AGE                  | 415.91      |
+| cat__STATEICP             | 126.39      |
+| cat__IND1990              | -43.18      |
+| cat__OCC2010              | -139.55     |
+| num__EDUC_SEX_INTERACTION | -1832.32    |
+| cat__MARST                | -5541.39    |
+| cat__GQ                   | -7956.89    |
+| cat__SCHLTYPE             | -16320.74   |
 :::
 
 *Table 1: Linear Regression Coefficients Table.*
@@ -300,7 +300,61 @@ We used matplotlib [@cite_matplotlib] to perform a residual analysis against the
 
 # Results {#sec-results}
 
-## Liner Regression Model
+## Linear Regression Model with Interaction Term
+
+### Linear Regression Results
+
+Table \ref{tbl-coefficients} provides the coefficients for each predictor in the model. The coefficients represent the estimated change in the target variable (income) for a one-unit change in the predictor, holding all other variables constant.
+
+The largest positive effect on income is observed for `cat_MORTGAGE`, which has a coefficient of 11,267.90. This suggests that individuals with a mortgage tend to have significantly higher incomes compared to those without, when other factors are held constant. Additionally, the coefficient for **`num__AGE`** is 415.91, indicating that income tends to increase with age, though the effect size is relatively small.
+
+On the other hand, some predictors have negative effects on income. The variable **`cat__SCHLTYPE`** (school type) has the largest negative coefficient of -16,320.74, suggesting that attending certain types of schools might be associated with lower income levels. Similarly, **`cat__GQ`** and **`cat__MARST`** (marital status) have negative coefficients of -7,956.89 and -5,541.39, respectively, implying that certain marital statuses or living arrangements are associated with lower income levels.
+
+Interestingly, the interaction term **`num__EDUC_SEX_INTERACTION`** has a negative coefficient of -1,832.32, suggesting that the relationship between education and income may differ by gender. The negative value could indicate that the combined effect of education and gender has a suppressing effect on income for certain groups.
+
+### Model Performance
+
+As shown in Table \ref{tbl-modelperformance}, the linear regression model explains a small portion of the variance in income, as evidenced by the R-squared value of 0.0775, which indicates that only 7.75% of the variability in income is explained by the predictors in the model. The Adjusted R-squared, which adjusts for the number of predictors, is slightly lower at 0.0775, confirming that the inclusion of additional predictors did not drastically improve the model’s explanatory power.
+
+Furthermore, the model’s Mean Squared Error (MSE) is 7,448,800,507, and the Root Mean Squared Error (RMSE) is 86,306.43, suggesting that the model's predictions deviate significantly from the actual income values. These performance metrics indicate that the linear regression model has limited predictive accuracy for this dataset.
+
+### Residual Analysis
+
+The residual analysis helps evaluate the linear regression model's performance. The residual histogram shows a strong right skew, indicating that while most predictions are close to the actual values, the model struggles with higher incomes. The long tail suggests significant under-prediction for some individuals.
+
+In the residuals vs. predicted values plot, the residuals exhibit a funnel shape, showing increasing variance as predicted income rises. This indicates heteroscedasticity, meaning the model's error increases for higher predicted values. Overall, the analysis suggests that the linear model fits well for lower incomes but underperforms for higher-income predictions, implying a need for more complex models to better capture these relationships.
+
+## Random Forest
+
+We employed a Random Forest model to predict income, tuning several hyperparameters to improve model performance. The best model was achieved with the following parameters: **max_depth=10**, **min_samples_leaf=4**, **min_samples_split=10**, and **n_estimators=300**. As we shown in Table \ref{tbl-randomforestMSE}, the final model had a Mean Squared Error (MSE) of 6,057,429,750 and a Root Mean Squared Error (RMSE) of 77,829.49, indicating a substantial improvement in prediction accuracy compared to the linear regression model.
+
+### Feature Importance
+
+The Random Forest model, Table \ref{tbl-randomforestimportance}, also allows for an examination of feature importance, which ranks the variables by their contribution to the model's predictions. The most important features in the model are:
+
+-   `cat__EDUC_new` (Education level) with an importance score of 0.337, indicating that education is the most significant factor affecting income in this model.
+
+-   `cat__IND1990` (Industry) has an importance score of 0.243, suggesting that the industry in which a person works is also a major determinant of income.
+
+-   `num__AGE` (Age) comes in third with a score of 0.194, implying that age plays a substantial role in income prediction.
+
+Other variables, such as `cat__SEX` (Sex) and `cat__MARST` (Marital Status), show moderate importance, while factors like `cat__MORTGAGE` and `cat__SCHLTYPE` (School Type) have much smaller impacts. Interestingly, `cat__OWNERSHP` (Home Ownership) has no contribution to the model, as its importance score is 0.000.
+
+### Residual Analysis
+
+The residuals from the Random Forest model were analyzed similarly to the linear model. The residuals plot, comparing predicted values with residuals, shows less heteroscedasticity compared to the linear model, suggesting that the Random Forest model handles the data more effectively, particularly for higher income levels. However, some degree of variability in the residuals still increases with predicted income, indicating that further tuning or model adjustments may be necessary for optimal performance.
+
+## XGBoost
+
+The XGBoost model, a gradient boosting algorithm, was optimized using a hyperparameter grid search, yielding the best parameters: **learning_rate=0.1**, **max_depth=6**, **min_child_weight=5**, and **n_estimators=300**. These parameters were selected to balance model complexity and overfitting control. As we shown in Table \ref{tbl-XGBoostMSE}, the final model achieved a Mean Squared Error (MSE) of 5,191,183,577.52 and a Root Mean Squared Error (RMSE) of 72,049.87, making it the best-performing model among the three evaluated.
+
+### Model Performance
+
+The XGBoost model’s Cross-Validation RMSE (Table \ref{tbl-XGBoostCV}) was 71,994.55, which aligns closely with the final RMSE, indicating that the model generalizes well across different data subsets. This consistency in performance suggests that XGBoost effectively captures the relationship between predictors and income without overfitting.
+
+### Residual Analysis
+
+The residuals vs. predicted values plot shows a similar pattern to the Random Forest model, with residuals clustering around zero for lower predicted values but spreading out for higher predicted incomes. However, compared to the Random Forest model, the XGBoost residuals show a slightly narrower spread, particularly at the higher income levels, indicating that XGBoost handles high-income predictions somewhat better. Nonetheless, some degree of heteroscedasticity remains, as the spread increases with predicted income.
 
 # Discussion {#sec-discussion}
 
@@ -308,11 +362,11 @@ We used matplotlib [@cite_matplotlib] to perform a residual analysis against the
 
 \newpage
 
-# Appendix {#sec-appendix}
+# Appendix
 
-## Data Cleaning {#sec-data-cleaning}
+## Data Cleaning
 
-## Model Details {#sec-model-details}
+## Model Details
 
 \newpage
 
