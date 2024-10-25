@@ -127,22 +127,22 @@ where:
 
 To ensure the robustness of our linear regression model, we conducted a series of steps aimed at minimizing multicollinearity and improving model interpretability. Initially, we included all relevant predictor variables, both categorical and numerical, to explore the full range of relationships between personal characteristics and income. Next, we calculated the Variance Inflation Factor (VIF) for each predictor to identify potential multicollinearity issues. Typically, a VIF value greater than 10 indicates problematic multicollinearity, which can distort the model's estimates. In our analysis, variables such as `VESTAT` (Veteran Status) and `AGE` had VIF values exceeding 13, suggesting they were highly correlated with other predictors. To address this, we removed these high-VIF variables from the model. Afterward, we refit the linear regression model using the reduced set of predictors, which resulted in improved performance metrics, including a lower Mean Squared Error and a more interpretable set of coefficients.
 
-Note that according to our previous analysis in @#sec-eda, the interaction term, `EDUC_SEX_INTERACTION`, was included to capture the combined effect of education level and gender on income. This allowed us to model the non-linear relationship between these two variables and their joint impact on the outcome variable.
+Note that according to our previous analysis in @sec-eda, the interaction term, `EDUC_SEX_INTERACTION`, was included to capture the combined effect of education level and gender on income. This allowed us to model the non-linear relationship between these two variables and their joint impact on the outcome variable.
 
 ::: {#tbl-coefficients}
 **Table 1: Coefficients from the Linear Regression Model**
 
 | Feature                     | Coefficient |
 |-----------------------------|-------------|
-| `cat__MORTGAGE`             | 9971.56     |
-| `num__AGE`                  | 397.66      |
-| `cat__STATEICP`             | 91.39       |
-| `cat__IND1990`              | -44.49      |
-| `cat__OCC2010`              | -201.61     |
-| `num__EDUC_SEX_INTERACTION` | -2799.42    |
-| `cat__MARST`                | -4929.08    |
-| `cat__GQ`                   | -7172.27    |
-| `cat__SCHLTYPE`             | -14947.02   |
+| `cat__MORTGAGE`             | 11267.90    |
+| `num__AGE`                  | 415.91      |
+| `cat__STATEICP`             | 126.39      |
+| `cat__IND1990`              | -43.18      |
+| `cat__OCC2010`              | -139.55     |
+| `num__EDUC_SEX_INTERACTION` | -1832.32    |
+| `cat__MARST`                | -5541.39    |
+| `cat__GQ`                   | -7956.89    |
+| `cat__SCHLTYPE`             | -16320.74   |
 :::
 
 *Table 1: Linear Regression Coefficients Table.*
@@ -158,17 +158,17 @@ The VIF was used to diagnose multicollinearity among predictors, helping us ensu
 ::: {#tbl-VIF}
 **Table 2: Variance Inflation Factors (VIF) for Predictor Variables**
 
-| Feature                     | VIF      |
-|-----------------------------|----------|
-| cat\_\_STATEICP             | 3.874599 |
-| cat\_\_GQ                   | 1.002446 |
-| cat\_\_MORTGAGE             | 2.614057 |
-| cat\_\_MARST                | 1.754080 |
-| cat\_\_SCHLTYPE             | 1.242432 |
-| cat\_\_OCC2010              | 2.953611 |
-| cat\_\_IND1990              | 6.566724 |
-| num\_\_AGE                  | 7.373021 |
-| num\_\_EDUC_SEX_INTERACTION | 7.066118 |
+| Feature                  | VIF       |
+|--------------------------|-----------|
+| cat__STATEICP            | 3.242254  |
+| cat__GQ                  | 1.002419  |
+| cat__MORTGAGE            | 2.658013  |
+| cat__MARST               | 1.741158  |
+| cat__SCHLTYPE            | 1.239412  |
+| cat__OCC2010             | 3.187731  |
+| cat__IND1990             | 8.490997  |
+| num__AGE                 | 7.871046  |
+| num__EDUC_SEX_INTERACTION| 6.945850  |
 :::
 
 *Table 2: This table displays the Variance Inflation Factors (VIF) for each of the predictor variables in the model. VIF values greater than 10 indicate potential multicollinearity issues.*
@@ -178,12 +178,12 @@ We chose $R^2$ as it provides a measure of how well the model explains the varia
 ::: {#tbl-modelperformance}
 **Table 3: Model Performance Metrics**
 
-| Metric                         | Value            |
-|--------------------------------|------------------|
-| Mean Squared Error (MSE)       | 7,178,302,129.51 |
-| Root Mean Squared Error (RMSE) | 84,724.86        |
-| R-squared                      | 0.11099          |
-| Adjusted R-squared             | 0.11097          |
+| Metric                     | Value              |
+|----------------------------|--------------------|
+| R-squared                  | 0.0774938018       |
+| Adjusted R-squared         | 0.0774637241       |
+| Mean Squared Error (MSE)   | 7,448,800,507.01   |
+| Root Mean Squared Error (RMSE) | 86,306.43        |
 :::
 
 *Table 3: This table presents the performance metrics of the linear regression model, including MSE, RMSE, R-squared, and Adjusted R-squared. These metrics are used to assess the model's fit and predictive accuracy.*
