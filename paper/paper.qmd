@@ -213,8 +213,8 @@ First, we calculated the Mean Squared Error (MSE) and Root Mean Squared Error (R
 
 | Metric          | Value            |
 |-----------------|------------------|
-| Best Model MSE  | 6,057,654,880.33 |
-| Best Model RMSE | 77,830.94        |
+| Best Model MSE  | 6,057,429,750.02 |
+| Best Model RMSE | 77,829.49        |
 :::
 
 *Table 4: This table shows the Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) for the best-tuned Random Forest model, demonstrating the model's performance after hyperparameter tuning.*
@@ -226,14 +226,14 @@ Additionally, we performed a feature importance analysis, which allowed us to un
 
 | Feature         | Importance |
 |-----------------|------------|
-| cat\_\_EDUC_new | 0.337465   |
-| cat\_\_IND1990  | 0.243701   |
-| num\_\_AGE      | 0.193615   |
-| cat\_\_SEX      | 0.149471   |
-| cat\_\_MARST    | 0.055754   |
-| cat\_\_MORTGAGE | 0.012897   |
-| cat\_\_SCHLTYPE | 0.004205   |
-| cat\_\_VETSTAT  | 0.002891   |
+| cat\_\_EDUC_new | 0.337065   |
+| cat\_\_IND1990  | 0.243454   |
+| num\_\_AGE      | 0.193926   |
+| cat\_\_SEX      | 0.149342   |
+| cat\_\_MARST    | 0.055948   |
+| cat\_\_MORTGAGE | 0.013064   |
+| cat\_\_SCHLTYPE | 0.004251   |
+| cat\_\_VETSTAT  | 0.002948   |
 | cat\_\_OWNERSHP | 0.000000   |
 :::
 
@@ -262,8 +262,8 @@ Similar to the Random Forest model, the XGBoost model was trained on a 70-30 tra
 
 | Metric                         | Value            |
 |--------------------------------|------------------|
-| Mean Squared Error (MSE)       | 5,901,467,894.81 |
-| Root Mean Squared Error (RMSE) | 76,821.01        |
+| Mean Squared Error (MSE)       | 5,191,183,577.52 |
+| Root Mean Squared Error (RMSE) | 72,049.87        |
 :::
 
 *Table 6: This table shows the Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) for the final XGBoost model, reflecting its predictive accuracy.*
@@ -277,7 +277,7 @@ We also performed cross-validation to ensure the robustness of the XGBoost model
 
 | Metric                | Value     |
 |-----------------------|-----------|
-| Cross-Validation RMSE | 71,676.11 |
+| Cross-Validation RMSE | 71,994.55 |
 :::
 
 *Table 7: This table shows the Root Mean Squared Error (RMSE) from cross-validation, demonstrating the model’s performance across different subsets of the data.*
