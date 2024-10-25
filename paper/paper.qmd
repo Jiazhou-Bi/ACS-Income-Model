@@ -358,7 +358,35 @@ The residuals vs. predicted values plot shows a similar pattern to the Random Fo
 
 # Discussion {#sec-discussion}
 
-## Weaknesses and next steps
+In this analysis, we explored three different models—Linear Regression, Random Forest, and XGBoost—to predict income based on various demographic and categorical factors. Each model provided valuable insights into the relationship between income and predictors such as education, age, industry, and gender. Among the models, XGBoost demonstrated the best performance in terms of predictive accuracy, as evidenced by its lower RMSE and superior handling of complex data interactions. However, this does not mean it is without limitations or that further improvements cannot be made.
+
+## Key Findings
+
+One consistent finding across all models is the significant impact of education and industry on income. These factors were consistently ranked as the most important predictors in both Random Forest and XGBoost models. Age also played an important role but to a lesser extent, while variables such as marital status and sex showed moderate influence.
+
+The residual analysis revealed that none of the models perfectly fit the data, particularly for higher income levels. Both Random Forest and XGBoost exhibited a pattern of increasing residual variance (heteroscedasticity) as predicted income increased, which suggests that the models struggled to accurately predict high-income values. Linear Regression, while more interpretable, performed the worst in terms of accuracy, especially for non-linear relationships between the predictors and income.
+
+Despite the overall success of XGBoost, it is clear that there are areas where the model's performance could be further refined.
+
+## Weaknesses and Limitations
+
+One major limitation encountered throughout the analysis was the skewness of the income distribution. The income data is heavily left-skewed, with most individuals earning relatively low amounts and a few individuals earning substantially higher incomes. This skewness likely contributed to the residual patterns we observed, particularly in the linear and Random Forest models.
+
+We attempted to address this by applying a logarithmic transformation to income in an effort to normalize the data. However, this transformation did not lead to substantial improvements in model performance. Even after the transformation, the residual patterns remained, indicating that the underlying relationships between predictors and income might require more sophisticated modeling approaches than simple transformations can provide.
+
+Another potential solution—though not ideal—would be to exclude extreme income values from the analysis. Removing high-income outliers might reduce the heteroscedasticity issue and result in a better fit for the majority of the population. However, excluding high-income individuals would also mean losing valuable information about the upper end of the income distribution, which is crucial for a complete analysis. Before taking this step, it would be necessary to justify it based on domain-specific knowledge or further data exploration.
+
+## Next Steps
+
+Looking forward, there are several potential avenues for further research and model improvement:
+
+-   While we focused on standard predictors like age, education, and industry, additional variables or interaction terms might improve model performance. For example, interactions between age and education, or industry and gender, could capture more nuanced relationships.
+
+-    Instead of removing high-income individuals, more sophisticated outlier treatment techniques could be applied. For instance, applying quantile regression or using robust regression models might help better model extreme values without distorting the broader data patterns.
+
+-   The skewness in income distribution poses a significant challenge for modeling. Exploring techniques like synthetic data generation for high-income individuals or applying weighting schemes to account for data imbalance might help the models better capture the variance across all income levels.
+
+In conclusion, while XGBoost provided the most accurate results, there is room for improvement in handling skewed data and better modeling high-income individuals. Future work will focus on addressing these issues while exploring more advanced modeling techniques and feature engineering to enhance predictive performance further.
 
 \newpage
 
