@@ -196,6 +196,20 @@ Table 3: Model Performance Metrics
 
 Additionally, residual analysis was conducted by plotting residuals against fitted values to check for randomness around zero, ensuring that the model satisfied the assumptions of linearity and homoscedasticity.
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{../other/graphs/LinearModelResidual1.png}
+\caption{Linear Model Residuals Plot}
+\label{fig:residual-linear1}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{../other/graphs/LinearModelResidual2.png}
+\caption{Linear Model Residuals vs. Predicted Values Plot}
+\label{fig:residual-linear2}
+\end{figure}
+
 We use the statsmodels package [@cite_statsmodels] to calculate the VIF for each predictor. We use the matplotlib [@cite_matplotlib] and seaborn [@seaborn] to visualize the residuals. We use the scikit-learn [@cite_sklearn] package to calculate the $R^2$ score.
 
 ## Random Forest Model {#sec-random-forest}
@@ -251,6 +265,13 @@ Table 5: Feature Importance in the Best Random Forest Model
 
 We also conducted a residual analysis by plotting the residuals (the difference between actual and predicted values) against the predicted values. This step helped us evaluate whether the model appropriately captured the underlying patterns in the data, ensuring that there were no significant biases or violations of model assumptions.
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{../other/graphs/RandomForestResidual.png}
+\caption{Random Forest Model Residuals vs. Predicted Values Plot}
+\label{fig:residual-randomforest}
+\end{figure}
+
 The feature importances were extracted from the best model using RandomForestRegressor from scikit-learn [@cite_sklearn] and displayed using pandas [@pandas]. We use the matplotlib [@cite_matplotlib] to visualize the residuals.
 
 ## XGBoost {#sec-xgboost}
@@ -259,7 +280,7 @@ The feature importances were extracted from the best model using RandomForestReg
 
 XGBoost (Extreme Gradient Boosting) is a powerful machine learning algorithm that builds an ensemble of decision trees using gradient boosting techniques. In gradient boosting, each subsequent tree is trained to correct the residuals of the previous trees, iteratively improving the model’s predictive accuracy. XGBoost enhances this process by incorporating regularization techniques to control overfitting, making it an ideal choice for capturing complex, non-linear relationships in data.
 
-To optimize the performance of our XGBoost model, we employed GridSearchCV to conduct hyperparameter tuning. We explored a range of hyperparameters to find the optimal configuration for our dataset. The grid search included the learning rate (`learning_rata`), max depth (`max_depth`), number of trees (`n_estimators)`, and minimum child weight (`min_child_weight`). Specifically, we tested learning rates of 0.01, 0.05, and 0.1, tree depths of 4, 6, and 8, and `n_estimators` values of 100, 200, and 300. Using GridSearchCV with a cross-validation fold of 3, we systematically evaluated different combinations of these hyperparameters. The model was evaluated using negative Mean Squared Error (MSE) as the scoring metric. The optimal model used a learning rate of `0.1`, a maximum tree depth of `6`, a minimum child weight of `5`, and `300` boosting rounds. This configuration provided a good balance between model complexity and predictive accuracy, capturing important non-linear relationships while minimizing overfitting.
+To optimize the performance of our XGBoost model, we employed GridSearchCV to conduct hyperparameter tuning. We explored a range of hyperparameters to find the optimal configuration for our dataset. The grid search included the learning rate (`learning_rata`), max depth (`max_depth`), number of trees (`n_estimators`), and minimum child weight (`min_child_weight`). Specifically, we tested learning rates of 0.01, 0.05, and 0.1, tree depths of 4, 6, and 8, and `n_estimators` values of 100, 200, and 300. Using GridSearchCV with a cross-validation fold of 3, we systematically evaluated different combinations of these hyperparameters. The model was evaluated using negative Mean Squared Error (MSE) as the scoring metric. The optimal model used a learning rate of `0.1`, a maximum tree depth of `6`, a minimum child weight of `5`, and `300` boosting rounds. This configuration provided a good balance between model complexity and predictive accuracy, capturing important non-linear relationships while minimizing overfitting.
 
 We implemented the XGBoost model in Python [@cite_python] using the scikit-learn package [@cite_sklearn], with pandas [@pandas] for data processing and xgboost [@cite_xgboost] for model fitting. The initial model was trained using default parameters of the XGBRegressor function, which was subsequently fine-tuned using GridSearchCV from scikit-learn [@cite_sklearn] for hyperparameter optimization. 
 
@@ -281,6 +302,13 @@ Table 6: XGBoost Model Performance Metrics
 *Table 6: This table shows the Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) for the final XGBoost model, reflecting its predictive accuracy.*
 
 We performed a residual analysis by plotting the residuals against the predicted values to assess the model's fit. This allowed us to check whether the XGBoost model accurately captured the patterns in the data and to verify that no major biases or violations of model assumptions were present.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.5\textwidth]{../other/graphs/XGBoostResidual.png}
+\caption{XGBoost Model Residuals vs. Predicted Values Plot}
+\label{fig:residual-XGBoost}
+\end{figure}
 
 We also performed cross-validation to ensure the robustness of the XGBoost model. This technique allowed us to evaluate the model’s performance across different subsets of the data, helping to confirm that the model generalizes well and is not overly sensitive to any particular portion of the training data.
 
@@ -306,11 +334,11 @@ We used matplotlib [@cite_matplotlib] to perform a residual analysis against the
 
 Table \ref{tbl-coefficients} provides the coefficients for each predictor in the model. The coefficients represent the estimated change in the target variable (income) for a one-unit change in the predictor, holding all other variables constant.
 
-The largest positive effect on income is observed for `cat_MORTGAGE`, which has a coefficient of 11,267.90. This suggests that individuals with a mortgage tend to have significantly higher incomes compared to those without, when other factors are held constant. Additionally, the coefficient for **`num__AGE`** is 415.91, indicating that income tends to increase with age, though the effect size is relatively small.
+The largest positive effect on income is observed for `cat_MORTGAGE`, which has a coefficient of 11,267.90. This suggests that individuals with a mortgage tend to have significantly higher incomes compared to those without, when other factors are held constant. Additionally, the coefficient for `num__AGE` is 415.91, indicating that income tends to increase with age, though the effect size is relatively small.
 
-On the other hand, some predictors have negative effects on income. The variable **`cat__SCHLTYPE`** (school type) has the largest negative coefficient of -16,320.74, suggesting that attending certain types of schools might be associated with lower income levels. Similarly, **`cat__GQ`** and **`cat__MARST`** (marital status) have negative coefficients of -7,956.89 and -5,541.39, respectively, implying that certain marital statuses or living arrangements are associated with lower income levels.
+On the other hand, some predictors have negative effects on income. The variable `cat__SCHLTYPE` (school type) has the largest negative coefficient of -16,320.74, suggesting that attending certain types of schools might be associated with lower income levels. Similarly, `cat__GQ` and `cat__MARST` (marital status) have negative coefficients of -7,956.89 and -5,541.39, respectively, implying that certain marital statuses or living arrangements are associated with lower income levels.
 
-Interestingly, the interaction term **`num__EDUC_SEX_INTERACTION`** has a negative coefficient of -1,832.32, suggesting that the relationship between education and income may differ by gender. The negative value could indicate that the combined effect of education and gender has a suppressing effect on income for certain groups.
+Interestingly, the interaction term `num__EDUC_SEX_INTERACTION` has a negative coefficient of -1,832.32, suggesting that the relationship between education and income may differ by gender. The negative value could indicate that the combined effect of education and gender has a suppressing effect on income for certain groups.
 
 ### Model Performance
 
@@ -320,9 +348,9 @@ Furthermore, the model’s Mean Squared Error (MSE) is 7,448,800,507, and the Ro
 
 ### Residual Analysis
 
-The residual analysis helps evaluate the linear regression model's performance. The residual histogram shows a strong right skew, indicating that while most predictions are close to the actual values, the model struggles with higher incomes. The long tail suggests significant under-prediction for some individuals.
+The residual analysis helps evaluate the linear regression model's performance. The residual histogram as shown in Figure \ref{fig:residual-linear1} shows a strong right skew, indicating that while most predictions are close to the actual values, the model struggles with higher incomes. The long tail suggests significant under-prediction for some individuals.
 
-In the residuals vs. predicted values plot, the residuals exhibit a funnel shape, showing increasing variance as predicted income rises. This indicates heteroscedasticity, meaning the model's error increases for higher predicted values. Overall, the analysis suggests that the linear model fits well for lower incomes but underperforms for higher-income predictions, implying a need for more complex models to better capture these relationships.
+In the residuals vs. predicted values plot as shown in Figure \ref{fig:residual-linear2}, the residuals exhibit a funnel shape, showing increasing variance as predicted income rises. This indicates heteroscedasticity, meaning the model's error increases for higher predicted values. Overall, the analysis suggests that the linear model fits well for lower incomes but underperforms for higher-income predictions, implying a need for more complex models to better capture these relationships.
 
 ## Random Forest
 
@@ -342,7 +370,7 @@ Other variables, such as `cat__SEX` (Sex) and `cat__MARST` (Marital Status), sho
 
 ### Residual Analysis
 
-The residuals from the Random Forest model were analyzed similarly to the linear model. The residuals plot, comparing predicted values with residuals, shows less heteroscedasticity compared to the linear model, suggesting that the Random Forest model handles the data more effectively, particularly for higher income levels. However, some degree of variability in the residuals still increases with predicted income, indicating that further tuning or model adjustments may be necessary for optimal performance.
+The residuals from the Random Forest model as shown in Figure \ref{fig:residual-randomforest} were analyzed similarly to the linear model. The residuals plot, comparing predicted values with residuals, shows less heteroscedasticity compared to the linear model, suggesting that the Random Forest model handles the data more effectively, particularly for higher income levels. However, some degree of variability in the residuals still increases with predicted income, indicating that further tuning or model adjustments may be necessary for optimal performance.
 
 ## XGBoost
 
@@ -354,7 +382,7 @@ The XGBoost model’s Cross-Validation RMSE (Table \ref{tbl-XGBoostCV}) was 71,9
 
 ### Residual Analysis
 
-The residuals vs. predicted values plot shows a similar pattern to the Random Forest model, with residuals clustering around zero for lower predicted values but spreading out for higher predicted incomes. However, compared to the Random Forest model, the XGBoost residuals show a slightly narrower spread, particularly at the higher income levels, indicating that XGBoost handles high-income predictions somewhat better. Nonetheless, some degree of heteroscedasticity remains, as the spread increases with predicted income.
+The residuals vs. predicted values plot as shown in Figure \ref{fig:residual-XGBoost} shows a similar pattern to the Random Forest model, with residuals clustering around zero for lower predicted values but spreading out for higher predicted incomes. However, compared to the Random Forest model, the XGBoost residuals show a slightly narrower spread, particularly at the higher income levels, indicating that XGBoost handles high-income predictions somewhat better. Nonetheless, some degree of heteroscedasticity remains, as the spread increases with predicted income.
 
 # Discussion {#sec-discussion}
 
