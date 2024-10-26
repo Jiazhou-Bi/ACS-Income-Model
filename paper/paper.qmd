@@ -101,8 +101,6 @@ This column was not included in the raw dataset but was created by dividing the 
 
 Our modeling strategy aims to explore the relationship between personal characteristics and income. We implemented three models: Linear Regression with Interaction Terms, Random Forest, and XGBoost, each chosen for their unique strengths in prediction and interpretation.
 
-Background details are included in Appendix @sec-model-details.
-
 ## Linear Regression Model with Interaction Term {#sec-linear-regression-model-with-interaction-term}
 
 ### Model set-up
@@ -421,8 +419,6 @@ In conclusion, while XGBoost provided the most accurate results, there is room f
 # Appendix
 
 ## Data Cleaning
-
-## Model Details
 
 \newpage
 
