@@ -38,13 +38,15 @@ The Mortgage variable describes the mortgage status of dwelling. There are five 
 #| echo: false
 #| label: fig-figure1
 #| warning: false
-#| fig-cap: Dwelling Ownership Details
+#| message: false
+#| fig-pos: "H"
+#| fig-cap: Mortgage Status Distribution
 
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 data = pd.read_parquet('../data/02-analysis_data/cleaned_data.parquet')
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(5, 3))
 sns.countplot(x='MORTGAGE', data=data, palette='pastel', edgecolor='black')
 plt.xlabel('Mortgage Status', fontsize=12)
 plt.ylabel('Count', fontsize=12)
@@ -63,13 +65,15 @@ This variable is coded as a binary variable, and we will use it as-is in our pro
 #| echo: false
 #| label: fig-figure2
 #| warning: false
+#| message: false
+#| fig-pos: "H"
 #| fig-cap: Sex Distribution
 
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 data = pd.read_parquet('../data/02-analysis_data/cleaned_data.parquet')
-plt.figure(figsize=(10, 6))
+plt.figure(figsize=(5, 3))
 sns.countplot(x='SEX', data=data, palette='pastel', edgecolor='black')
 plt.xlabel('Sex', fontsize=12)
 plt.ylabel('Count', fontsize=12)
@@ -87,6 +91,8 @@ Age describes the age of the individual, and a age of 0 was coded for the indivi
 #| echo: false
 #| label: fig-figure3
 #| warning: false
+#| message: false
+#| fig-pos: "H"
 #| fig-cap: Age Distribution
 
 import pandas as pd
@@ -111,6 +117,8 @@ Marital status describes the marital status of the individual. There are 7 diffe
 #| echo: false
 #| label: fig-figure4
 #| warning: false
+#| message: false
+#| fig-pos: "H"
 #| fig-cap: Counts of Marital Status
 
 import pandas as pd
@@ -145,6 +153,8 @@ This is a general version (compared to the detailed version). The reason of choo
 #| echo: false
 #| label: fig-figure5
 #| warning: false
+#| message: false
+#| fig-pos: "H"
 #| fig-cap: Educational Attainment
 
 import pandas as pd
@@ -178,6 +188,8 @@ School type indicates if the individual went to a public school or private schoo
 #| echo: false
 #| label: fig-figure6
 #| warning: false
+#| message: false
+#| fig-pos: "H"
 #| fig-cap: School Type
 
 import pandas as pd
@@ -211,6 +223,8 @@ Veteran status idicates whether the individual is a veteran or not. It can be ei
 #| echo: false
 #| label: tbl-table1
 #| warning: false
+#| message: false
+#| fig-pos: "H"
 #| fig-cap: Veteran Status
 
 import pandas as pd
@@ -243,6 +257,8 @@ Total income is the total income made by the individual for the year. The distri
 #| echo: false
 #| label: fig-figure7
 #| warning: false
+#| message: false
+#| fig-pos: "H"
 #| fig-cap: Total Income Distribution
 
 import pandas as pd
@@ -261,6 +277,38 @@ plt.show()
 
 ```
 # Exploratory Data Analysis {#sec-eda}
+
+## Income Distribution by Mortgage Status
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../other/graphs/EDAincomebymortgage.png}
+    \caption{Income Distribution by Mortgage Status}
+    \label{fig:income-mortgage}
+\end{figure}
+
+Figure \ref{fig:income-mortgage} illustrates the income distribution for individuals with different mortgage statuses. The highest average income is observed among individuals with a "Mortgage/Trust Deed," followed by those who own their homes outright ("Fully Owned"). Those with a "Signed Purchase Contract" have the lowest average income among the groups. This pattern may reflect a correlation between mortgage status and income level, where individuals with higher incomes are more likely to secure traditional mortgage loans, while those with lower incomes tend towards alternative purchasing arrangements. This could indicate the influence of financial stability and access to credit on mortgage status.
+
+## Correlation Analysis of Age, Education, and Income
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../other/graphs/EDAcorrelation.png}
+    \caption{Correlation Matrix of Age, Education, and Income}
+    \label{fig:correlation-matrix}
+\end{figure}
+
+Figure \ref{fig:correlation-matrix} shows the correlation matrix for three key variables: age, education level (EDUC_new), and total personal income (INCTOT). The matrix reveals that there is a moderate positive correlation between education level and income (0.29), suggesting that higher education levels are generally associated with higher income. Additionally, a smaller positive correlation exists between age and income (0.14), which might indicate that as individuals grow older, they tend to earn more due to accumulated experience. The correlation between age and education (0.06) is minimal, which is expected as these two variables are less directly related. Overall, this analysis supports the notion that education level plays a more significant role in income variation than age within this dataset.
+
+## Average Income by Education and Gender {#sec-eda3}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{../other/graphs/EDAinteraction.png}
+    \caption{Average Income by Education and Sex}
+    \label{fig:income-education-sex}
+\end{figure}
+
+Figure \ref{fig:income-education-sex} presents the average total personal income based on different levels of education for both male and female groups. From the plot, it is observed that individuals with higher levels of education, particularly those who attended "College 5+ Years," tend to earn more on average compared to other groups. However, there are some variations in income within each education level, as indicated by the error bars. Generally, males tend to have higher average incomes across most education levels. This difference suggests a possible gender-based income disparity, even after controlling for education levels. Additionally, the variability in income among education levels highlights that factors beyond educational attainment, such as occupation and industry, may further impact income. Thus, incorporating an interaction term between education and gender in the model is necessary to capture these nuanced effects more accurately.
 
 # Model {#sec-model}
 
@@ -290,7 +338,7 @@ where:
 
 To ensure the robustness of our linear regression model, we conducted a series of steps aimed at minimizing multicollinearity and improving model interpretability. Initially, we included all relevant predictor variables, both categorical and numerical, to explore the full range of relationships between personal characteristics and income. Next, we calculated the Variance Inflation Factor (VIF) for each predictor to identify potential multicollinearity issues. Typically, a VIF value greater than 10 indicates problematic multicollinearity, which can distort the model's estimates. In our analysis, variables such as `VESTAT` (Veteran Status) and `AGE` had VIF values exceeding 13, suggesting they were highly correlated with other predictors. To address this, we removed these high-VIF variables from the model. Afterward, we refit the linear regression model using the reduced set of predictors, which resulted in improved performance metrics, including a lower Mean Squared Error and a more interpretable set of coefficients.
 
-Note that according to our previous analysis in @sec-eda, the interaction term, `EDUC_SEX_INTERACTION`, was included to capture the combined effect of education level and gender on income. This allowed us to model the non-linear relationship between these two variables and their joint impact on the outcome variable.
+Note that according to our previous analysis in @sec-eda3, the interaction term, `EDUC_SEX_INTERACTION`, was included to capture the combined effect of education level and gender on income. This allowed us to model the non-linear relationship between these two variables and their joint impact on the outcome variable.
 
 ::: {#tbl-coefficients}
 \begin{center}
