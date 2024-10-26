@@ -28,47 +28,35 @@ If we can successfully predict personal income using demographic information fro
 
 # Data {#sec-data}
 
-The dataset used here is downloaded from the Toronto Open Data website via @TorontoOpenData. This dataset contains all the reported crimes that happened in Toronto from 2014 to 2023. This dataset is grouped by the year of the reported crime, its category and belonging subtype, and the count of the subtype being reported and cleared for that year for each division. Because I am examining the crime pattern in the city, I have dropped the division information and aggregated the existing data according to their subtype and the year of the crime being reported. In the following subsections, I will review all the variables used in this report and provide some basic descriptive statistics. The first five rows of the cleaned data used for analysis are attached (@tbl-table1).
+The dataset used here is downloaded from the IPUMS USA website via @ipums_usa_v15. Our project's extracted dataset contains all the responses from the American Community Survey (ACS) from 2023. Our extraction included the following variables: total income, dwelling mortgage status, sex of the individual, marital status, education attainment, private or public school, industry or occupation, veteran status, and age. We acknowledge that some of the variables (such as educational level, occupation, etc.) we have chosen here may have a more detailed version that contains more information. However, due to the nature of categorical variables, having detailed variables will create more classes of that variable, thus leading to more features for our model when encoding those variables. Although more features will improve the overall performance of our predictive model, it will also create issues such as overfitting, needing more computational resources, and lack of interpretability. Due to the trade-off of these mentioned pros and cons, we have decided to proceed with these higher-level variables for this project for simplicity. Furthermore, we have cleaned the data for better data quality. Details of our data cleaning processes are provided in @sec-datacleaning. In the following subsections, we will review all the variables used in this report and provide some basic descriptive statistics. 
+
+This is a general version (compared to the detailed version). The reason of choosing the general version is mentioned in @sec-data above
+## Mortgage
+The Mortgage variable describes the mortgage status of dwelling. There are five different values, they are "N/A", "No, owned free and clear", "Check mark on manuscript (probably yes)", "Yes, mortgaged/ deed of trust or similar debt", and "Yes, contract to purchase". We have dropped the N/A values for better data quality. Details available in @sec-datacleaning. The count of the remaining classes is shown below in (@fig-figure1).
 
 ```{python}
-#| label: tbl-table1
-#| tbl-cap: Example of Cleaned Data
-#| warning: false
+
 #| echo: false
+#| label: fig-figure1
+#| warning: false
+#| tbl-cap: Dwelling Ownership Details
 
 import pandas as pd
-data = pd.read_parquet('../data/02-analysis_data/cleaned_data.parquet')
-data.index = data.index + 1
-data.head()
-# styled_data = data.head().style.format({'ClearRate': "{:.2f}"}).hide().set_table_styles([{"selector":"th.col_heading,td","props":[("width","100px")]}])
-# styled_data
-#data.values[:5]
-#print(data.head().to_string(index=False))
+import matplotlib.pyplot as plt
+import seaborn as sns
+plt.figure(figsize=(10, 6))
+sns.countplot(x='MORTGAGE', data=data, palette='pastel', edgecolor='black')
+plt.title('Distribution of Mortgage Status', fontsize=14)
+plt.xlabel('Mortgage Status', fontsize=12)
+plt.ylabel('Count', fontsize=12)
+plt.xticks(rotation=30, ha='right')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
 
 ```
 
-## Report Year
-The report year variable is the number of crimes being reported. In this dataset, the data spans from 2014 to 2023, encompassing ten years. No month or date information was given; thus, there are only ten different values for this variable in chronological order.
-
-## Category
-The category includes information about the nature of the crime. There are six crime categories: Crimes Against Property, Crimes Against the Person, Other Federal Statute Violations, Other Criminal Code Violations, Controlled Drugs and Substances Act, and Criminal Code Traffic. They are listed in the table below (@tbl-table2).
-
-```{python}
-
-#| echo: false
-#| label: tbl-table2
-#| warning: false
-#| tbl-cap: Six Crime Categories
-# import pandas as pd
-# import plotly.graph_objects as go
-# data = pd.read_csv('../data/analysis_data/analysis_data.csv')
-# unique_category = data.Category.unique()
-# category_df = pd.DataFrame(unique_category, columns=['Categories'])
-# category_df.index = category_df.index + 1
-# category_df
-```
-
-## Subtype
+## Sex
 There exist multiple subtypes under each crime category. The following is an exhaustive table (@tbl-table3) of all crimes' subtypes and their respective category.
 
 ```{python}
@@ -86,13 +74,25 @@ There exist multiple subtypes under each crime category. The following is an exh
 # unique_category_subtype_df
 ```
 
-## Count
+## Age
 In the original table, this value is grouped by the subtype of the crime, the division, and the year when the crime was reported. The original count indicates the number of a specific subtype of crime reported within a particular division for the year. However, as mentioned before, because I am only interested in all the crimes in the City of Toronto, I have dropped the division information and aggregated the count from all the divisions to a single value. Therefore, for each subtype of the crimes, a total count of that subtype is reported in a single year.
 
-## Count_Cleared
+## Marrital Status
 These are the counts of crimes identified as cleared. In plain words, these are crimes that are dealt/solved. I have taken the same approach for this column as the previous one. After cleaning the data,f, or each subtype of the crimes, there is a total count of that subtype being reported that is also cleared in a single year.
 
-## Case_Clearing_Rate
+## Educational Attainment
+This column was not included in the raw dataset but was created by dividing the cleared crimes by total crimes. A higher case-clearing rate for a particular subtype of crime usually suggests a higher effectiveness of law enforcement in dealing with this subtype of crime. The value is ranged from 0 to 100%.
+
+## School Type
+This column was not included in the raw dataset but was created by dividing the cleared crimes by total crimes. A higher case-clearing rate for a particular subtype of crime usually suggests a higher effectiveness of law enforcement in dealing with this subtype of crime. The value is ranged from 0 to 100%.
+
+## Industry
+This column was not included in the raw dataset but was created by dividing the cleared crimes by total crimes. A higher case-clearing rate for a particular subtype of crime usually suggests a higher effectiveness of law enforcement in dealing with this subtype of crime. The value is ranged from 0 to 100%.
+
+## Vateran Status
+This column was not included in the raw dataset but was created by dividing the cleared crimes by total crimes. A higher case-clearing rate for a particular subtype of crime usually suggests a higher effectiveness of law enforcement in dealing with this subtype of crime. The value is ranged from 0 to 100%.
+
+## Total Income
 This column was not included in the raw dataset but was created by dividing the cleared crimes by total crimes. A higher case-clearing rate for a particular subtype of crime usually suggests a higher effectiveness of law enforcement in dealing with this subtype of crime. The value is ranged from 0 to 100%.
 
 # Exploratory Data Analysis {#sec-eda}
