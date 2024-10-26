@@ -30,7 +30,6 @@ If we can successfully predict personal income using demographic information fro
 
 The dataset used here is downloaded from the IPUMS USA website via @ipums_usa_v15. Our project's extracted dataset contains all the responses from the American Community Survey (ACS) from 2023. Our extraction included the following variables: total income, dwelling mortgage status, sex of the individual, marital status, education attainment, private or public school, industry or occupation, veteran status, and age. We acknowledge that some of the variables (such as educational level, occupation, etc.) we have chosen here may have a more detailed version that contains more information. However, due to the nature of categorical variables, having detailed variables will create more classes of that variable, thus leading to more features for our model when encoding those variables. Although more features will improve the overall performance of our predictive model, it will also create issues such as overfitting, needing more computational resources, and lack of interpretability. Due to the trade-off of these mentioned pros and cons, we have decided to proceed with these higher-level variables for this project for simplicity. Furthermore, we have cleaned the data for better data quality. Details of our data cleaning processes are provided in @sec-datacleaning. In the following subsections, we will review all the variables used in this report and provide some basic descriptive statistics. 
 
-This is a general version (compared to the detailed version). The reason of choosing the general version is mentioned in @sec-data above
 ## Mortgage
 The Mortgage variable describes the mortgage status of dwelling. There are five different values, they are "N/A", "No, owned free and clear", "Check mark on manuscript (probably yes)", "Yes, mortgaged/ deed of trust or similar debt", and "Yes, contract to purchase". We have dropped the N/A values for better data quality. Details available in @sec-datacleaning. The count of the remaining classes is shown below in (@fig-figure1).
 
@@ -39,14 +38,14 @@ The Mortgage variable describes the mortgage status of dwelling. There are five 
 #| echo: false
 #| label: fig-figure1
 #| warning: false
-#| tbl-cap: Dwelling Ownership Details
+#| fig-cap: Dwelling Ownership Details
 
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+data = pd.read_parquet('../data/02-analysis_data/cleaned_data.parquet')
 plt.figure(figsize=(10, 6))
 sns.countplot(x='MORTGAGE', data=data, palette='pastel', edgecolor='black')
-plt.title('Distribution of Mortgage Status', fontsize=14)
 plt.xlabel('Mortgage Status', fontsize=12)
 plt.ylabel('Count', fontsize=12)
 plt.xticks(rotation=30, ha='right')
@@ -57,44 +56,210 @@ plt.show()
 ```
 
 ## Sex
-There exist multiple subtypes under each crime category. The following is an exhaustive table (@tbl-table3) of all crimes' subtypes and their respective category.
+This variable is coded as a binary variable, and we will use it as-is in our project. This does not suggest that the authors agree with this type of sex classification, but rather that it aligns with the available data and serves the research purposes of this project. The binary coding is a practical choice to maintain consistency with the dataset, though it may not fully capture the complexity and diversity of gender identities. @fig-figure2 below shows the distribution of this variable.
 
 ```{python}
+
 #| echo: false
-#| label: tbl-table3
+#| label: fig-figure2
 #| warning: false
-#| tbl-cap: Crime Categories and Subtypes
-# import pandas as pd
-# data = pd.read_csv('../data/analysis_data/analysis_data.csv')
-# unique_category_subtype_data = data.drop_duplicates(subset=['Category', 'Subtype'])
-# unique_category_subtype_df = unique_category_subtype_data[['Category', 'Subtype']]
-# unique_category_subtype_df = unique_category_subtype_df.sort_values(by=['Category','Subtype'],ascending=True)
-# unique_category_subtype_df.reset_index(drop=True, inplace=True)
-# unique_category_subtype_df.index = unique_category_subtype_df.index + 1
-# unique_category_subtype_df
+#| fig-cap: Sex Distribution
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+data = pd.read_parquet('../data/02-analysis_data/cleaned_data.parquet')
+plt.figure(figsize=(10, 6))
+sns.countplot(x='SEX', data=data, palette='pastel', edgecolor='black')
+plt.xlabel('Sex', fontsize=12)
+plt.ylabel('Count', fontsize=12)
+plt.xticks(ha='right')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
+
 ```
 
 ## Age
-In the original table, this value is grouped by the subtype of the crime, the division, and the year when the crime was reported. The original count indicates the number of a specific subtype of crime reported within a particular division for the year. However, as mentioned before, because I am only interested in all the crimes in the City of Toronto, I have dropped the division information and aggregated the count from all the divisions to a single value. Therefore, for each subtype of the crimes, a total count of that subtype is reported in a single year.
+Age describes the age of the individual, and a age of 0 was coded for the individuals under 1 year old. For our dataset, the minimum age is 16, however. Age distribution of our dataset is shown below in @fig-figure3.
+```{python}
 
-## Marrital Status
-These are the counts of crimes identified as cleared. In plain words, these are crimes that are dealt/solved. I have taken the same approach for this column as the previous one. After cleaning the data,f, or each subtype of the crimes, there is a total count of that subtype being reported that is also cleared in a single year.
+#| echo: false
+#| label: fig-figure3
+#| warning: false
+#| fig-cap: Age Distribution
 
-## Educational Attainment
-This column was not included in the raw dataset but was created by dividing the cleared crimes by total crimes. A higher case-clearing rate for a particular subtype of crime usually suggests a higher effectiveness of law enforcement in dealing with this subtype of crime. The value is ranged from 0 to 100%.
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+data = pd.read_parquet('../data/02-analysis_data/cleaned_data.parquet')
+plt.figure(figsize=(10, 6))
+sns.countplot(x='AGE', data=data, palette='pastel', edgecolor='black')
+plt.xlabel('Age', fontsize=12)
+plt.ylabel('Count', fontsize=8)
+plt.xticks(rotation=90, ha='center')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
+
+```
+
+## Marital Status
+Marital status describes the marital status of the individual. There are 7 different values, namely "Married, spouse present", "Married, spouse absent", "Separated", "Divorced", "Widowed", "Never married/single", and "Blank, missing". We have dropped the N/A values for better data quality. Details available in @sec-datacleaning. The following @fig-figure4 illustrate the distribution of marital status of the participants in our dataset.
+```{python}
+
+#| echo: false
+#| label: fig-figure4
+#| warning: false
+#| fig-cap: Counts of Marital Status
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+data = pd.read_parquet('../data/02-analysis_data/cleaned_data.parquet')
+marrital_status_label = {
+  '1': 'Married, spouse present',
+  '2': 'Married, spouse absent',
+  '3': 'Separated',
+  '4': 'Divorced',
+  '5': 'Widowed',
+  '6': 'Never married/single',
+  '9': 'Blank, missing'
+}
+data['MARST'] = data['MARST'].map(marrital_status_label)
+plt.figure(figsize=(10, 6))
+sns.countplot(x='MARST', data=data, palette='pastel', edgecolor='black')
+plt.xlabel('Marital Status', fontsize=12)
+plt.ylabel('Count', fontsize=12)
+plt.xticks(rotation=30, ha='center')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
+
+```
+
+## Educational Attainment [general version]
+This is a general version (compared to the detailed version). The reason of choosing the general version is mentioned in @sec-data above. This column represents the highest educational attainment achieved by the individual. The distribution of the variable is shown in @fig-figure5.
+```{python}
+
+#| echo: false
+#| label: fig-figure5
+#| warning: false
+#| fig-cap: Educational Attainment
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+data = pd.read_parquet('../data/02-analysis_data/cleaned_data.parquet')
+educ_new_label = {
+    0: 'No Schooling',
+    1: 'Nursery School',
+    2: 'Primary School',
+    3: 'Middle School',
+    4: 'College 1-4 Years',
+    5: 'College 5+ Years'
+}
+data['EDUC_new'] = data['EDUC_new'].map(educ_new_label)
+plt.figure(figsize=(10, 6))
+sns.countplot(x='EDUC_new', data=data, palette='pastel', edgecolor='black')
+plt.xlabel('Educational Attainment', fontsize=12)
+plt.ylabel('Count', fontsize=12)
+plt.xticks(rotation=30, ha='center')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
+
+```
 
 ## School Type
-This column was not included in the raw dataset but was created by dividing the cleared crimes by total crimes. A higher case-clearing rate for a particular subtype of crime usually suggests a higher effectiveness of law enforcement in dealing with this subtype of crime. The value is ranged from 0 to 100%.
+School type indicates if the individual went to a public school or private school. Other than missing values, there are three different classes. They are "Not enrolled", "Public school", and "Private school". We are not sure how the participants would respond if they have been to more than one type of schools. @fig-figure6 shows the distribution of our sample.
+```{python}
 
+#| echo: false
+#| label: fig-figure6
+#| warning: false
+#| fig-cap: School Type
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+data = pd.read_parquet('../data/02-analysis_data/cleaned_data.parquet')
+school_type_label = {
+    "1": 'Not Enrolled',
+    "2": 'Private School',
+    "3": 'Public School',
+}
+data['SCHLTYPE'] = data['SCHLTYPE'].map(school_type_label)
+plt.figure(figsize=(10, 6))
+sns.countplot(x='SCHLTYPE', data=data, palette='pastel', edgecolor='black')
+plt.xlabel('Private or Public School', fontsize=12)
+plt.ylabel('Count', fontsize=12)
+plt.xticks(rotation=30, ha='center')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
+
+```
 ## Industry
-This column was not included in the raw dataset but was created by dividing the cleared crimes by total crimes. A higher case-clearing rate for a particular subtype of crime usually suggests a higher effectiveness of law enforcement in dealing with this subtype of crime. The value is ranged from 0 to 100%.
+Industry describes the type of industry the individual works in. Same as the educational attainment variable, more detailed version of this variable is available (i.e., Occupation). There are more than 200 industries listed in our sample. A detailed description can be seen at [IPUMS USA](https://usa.ipums.org/usa-action/variables/IND1990#description_section).
 
-## Vateran Status
-This column was not included in the raw dataset but was created by dividing the cleared crimes by total crimes. A higher case-clearing rate for a particular subtype of crime usually suggests a higher effectiveness of law enforcement in dealing with this subtype of crime. The value is ranged from 0 to 100%.
+
+## Veteran Status [General Version]
+Veteran status idicates whether the individual is a veteran or not. It can be either "Yes", "No", or "N/A". Please notice that "N/A" here is different from missing, suggesting this might be a different indicator, which is not explicitly explained from the ddl file provided. There is also a detailed version of this variable, which is not used in our project. The counts is displayed in @tbl-table1.
+```{python}
+
+#| echo: false
+#| label: tbl-table1
+#| warning: false
+#| fig-cap: Veteran Status
+
+import pandas as pd
+import matplotlib.pyplot as plt
+
+data = pd.read_parquet('../data/02-analysis_data/cleaned_data.parquet')
+vet_status_labels = {'0': 'N/A', '1': 'No', '2': 'Yes'}
+data['VETSTAT'] = data['VETSTAT'].map(vet_status_labels)
+vet_status_count = data['VETSTAT'].value_counts().reset_index()
+vet_status_count.columns = ['Veteran Status', 'Count']
+fig, ax = plt.subplots(figsize=(6, 2))
+ax.axis('off')
+table = ax.table(
+    cellText=vet_status_count.values,
+    colLabels=vet_status_count.columns,
+    cellLoc='center',
+    loc='center'
+)
+table.auto_set_font_size(False)
+table.set_fontsize(10)
+table.scale(1, 1.5)
+plt.tight_layout()
+plt.show()
+```
 
 ## Total Income
-This column was not included in the raw dataset but was created by dividing the cleared crimes by total crimes. A higher case-clearing rate for a particular subtype of crime usually suggests a higher effectiveness of law enforcement in dealing with this subtype of crime. The value is ranged from 0 to 100%.
+Total income is the total income made by the individual for the year. The distribution of total income is depicted in @fig-figure7. We have removed the outliers from the graph to have a better understanding of the general pattern of the overall distribution.
+```{python}
 
+#| echo: false
+#| label: fig-figure7
+#| warning: false
+#| fig-cap: Total Income Distribution
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+data = pd.read_parquet('../data/02-analysis_data/cleaned_data.parquet')
+plt.figure(figsize=(10, 6))
+sns.histplot(x='INCTOT', data=data, palette='pastel', edgecolor='black')
+plt.xlabel('Total Income', fontsize=12)
+plt.ylabel('Count', fontsize=12)
+plt.xticks(rotation=30, ha='center')
+plt.xlim(0, 250000)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
+
+```
 # Exploratory Data Analysis {#sec-eda}
 
 # Model {#sec-model}
@@ -129,7 +294,7 @@ Note that according to our previous analysis in @sec-eda, the interaction term, 
 
 ::: {#tbl-coefficients}
 \begin{center}
-Table 1: Coefficients from the Linear Regression Model
+Table 2: Coefficients from the Linear Regression Model
 \end{center}
 
 | Feature                     | Coefficient |
@@ -145,7 +310,7 @@ Table 1: Coefficients from the Linear Regression Model
 | cat__SCHLTYPE             | -16320.74   |
 :::
 
-*Table 1: Linear Regression Coefficients Table.*
+*Table 2: Linear Regression Coefficients Table.*
 
 We run the model in Python [@cite_python] using the `scikit-learn` package [@cite_sklearn]. We use the default settings for the `LinearRegression` function from `scikit-learn`. We use the `statsmodels` package [@cite_statsmodels] to calculate the VIF for each predictor.
 
@@ -157,7 +322,7 @@ The VIF was used to diagnose multicollinearity among predictors, helping us ensu
 
 ::: {#tbl-VIF}
 \begin{center}
-Table 2: Variance Inflation Factors (VIF) for Predictor Variables
+Table 3: Variance Inflation Factors (VIF) for Predictor Variables
 \end{center}
 
 | Feature                  | VIF       |
@@ -173,13 +338,13 @@ Table 2: Variance Inflation Factors (VIF) for Predictor Variables
 | num__EDUC_SEX_INTERACTION| 6.945850  |
 :::
 
-*Table 2: This table displays the Variance Inflation Factors (VIF) for each of the predictor variables in the model. VIF values greater than 10 indicate potential multicollinearity issues.*
+*Table 3: This table displays the Variance Inflation Factors (VIF) for each of the predictor variables in the model. VIF values greater than 10 indicate potential multicollinearity issues.*
 
 We chose $R^2$ as it provides a measure of how well the model explains the variance in the dependent variable, making it an important indicator of the model’s explanatory power. The MSE was selected to quantify the average squared difference between observed and predicted values, offering a clear view of the model’s prediction error.
 
 ::: {#tbl-modelperformance}
 \begin{center}
-Table 3: Model Performance Metrics
+Table 4: Model Performance Metrics
 \end{center}
 
 | Metric                     | Value              |
@@ -190,7 +355,7 @@ Table 3: Model Performance Metrics
 | Root Mean Squared Error (RMSE) | 86,306.43        |
 :::
 
-*Table 3: This table presents the performance metrics of the linear regression model, including MSE, RMSE, R-squared, and Adjusted R-squared. These metrics are used to assess the model's fit and predictive accuracy.*
+*Table 4: This table presents the performance metrics of the linear regression model, including MSE, RMSE, R-squared, and Adjusted R-squared. These metrics are used to assess the model's fit and predictive accuracy.*
 
 Additionally, residual analysis was conducted by plotting residuals against fitted values to check for randomness around zero, ensuring that the model satisfied the assumptions of linearity and homoscedasticity.
 
@@ -228,7 +393,7 @@ First, we calculated the Mean Squared Error (MSE) and Root Mean Squared Error (R
 
 ::: {#tbl-randomforestMSE}
 \begin{center}
-Table 4: Best Random Forest Model Performance Metrics
+Table 5: Best Random Forest Model Performance Metrics
 \end{center}
 
 | Metric          | Value            |
@@ -237,13 +402,13 @@ Table 4: Best Random Forest Model Performance Metrics
 | Best Model RMSE | 77,829.47        |
 :::
 
-*Table 4: This table shows the Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) for the best-tuned Random Forest model, demonstrating the model's performance after hyperparameter tuning.*
+*Table 5: This table shows the Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) for the best-tuned Random Forest model, demonstrating the model's performance after hyperparameter tuning.*
 
 Additionally, we performed a feature importance analysis, which allowed us to understand the relative significance of each predictor variable in determining income. This is particularly useful for verifying that the model identifies the key factors influencing income as expected.
 
 ::: {#tbl-randomforestimportance}
 \begin{center}
-Table 5: Feature Importance in the Best Random Forest Model
+Table 6: Feature Importance in the Best Random Forest Model
 \end{center}
 
 | Feature         | Importance |
@@ -258,7 +423,7 @@ Table 5: Feature Importance in the Best Random Forest Model
 | cat\_\_VETSTAT  | 0.002948   |
 :::
 
-*Table 5: This table lists the feature importance values for the best-performing Random Forest model. The higher the importance value, the more significant the feature is in predicting the target variable (income).*
+*Table 6: This table lists the feature importance values for the best-performing Random Forest model. The higher the importance value, the more significant the feature is in predicting the target variable (income).*
 
 We also conducted a residual analysis by plotting the residuals (the difference between actual and predicted values) against the predicted values. This step helped us evaluate whether the model appropriately captured the underlying patterns in the data, ensuring that there were no significant biases or violations of model assumptions.
 
@@ -287,7 +452,7 @@ Similar to the Random Forest model, the XGBoost model was trained on a 70-30 tra
 
 ::: {#tbl-XGBoostMSE}
 \begin{center}
-Table 6: XGBoost Model Performance Metrics
+Table 7: XGBoost Model Performance Metrics
 \end{center}
 
 | Metric                         | Value            |
@@ -296,7 +461,7 @@ Table 6: XGBoost Model Performance Metrics
 | Root Mean Squared Error (RMSE) | 76,515.55        |
 :::
 
-*Table 6: This table shows the Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) for the final XGBoost model, reflecting its predictive accuracy.*
+*Table 7: This table shows the Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) for the final XGBoost model, reflecting its predictive accuracy.*
 
 We performed a residual analysis by plotting the residuals against the predicted values to assess the model's fit. This allowed us to check whether the XGBoost model accurately captured the patterns in the data and to verify that no major biases or violations of model assumptions were present.
 
@@ -311,7 +476,7 @@ We also performed cross-validation to ensure the robustness of the XGBoost model
 
 ::: {#tbl-XGBoostCV}
 \begin{center}
-Table 7: Cross-Validation RMSE for XGBoost Model
+Table 8: XGBoost Cross-Validation Performance
 \end{center}
 
 | Fold  | RMSE       |
@@ -324,7 +489,7 @@ Table 7: Cross-Validation RMSE for XGBoost Model
 | **Average** | **76,499.52** |
 :::
 
-*Table 7: This table shows the Root Mean Squared Error (RMSE) from cross-validation, demonstrating the model’s performance across different subsets of the data.*
+*Table 8: This table shows the Root Mean Squared Error (RMSE) from cross-validation, demonstrating the model’s performance across different subsets of the data.*
 
 We used matplotlib [@cite_matplotlib] to perform a residual analysis against the predicted values from the XGBoost model. We performed cross-validation using cross_val_score function from scikit-learn  [@cite_sklearn] to evaluate the robustness of the model. 
 
