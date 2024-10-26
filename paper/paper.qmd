@@ -233,8 +233,8 @@ Table 4: Best Random Forest Model Performance Metrics
 
 | Metric          | Value            |
 |-----------------|------------------|
-| Best Model MSE  | 6,057,429,750.02 |
-| Best Model RMSE | 77,829.49        |
+| Best Model MSE  | 6,057,426,411.65 |
+| Best Model RMSE | 77,829.47        |
 :::
 
 *Table 4: This table shows the Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) for the best-tuned Random Forest model, demonstrating the model's performance after hyperparameter tuning.*
@@ -256,7 +256,6 @@ Table 5: Feature Importance in the Best Random Forest Model
 | cat\_\_MORTGAGE | 0.013064   |
 | cat\_\_SCHLTYPE | 0.004251   |
 | cat\_\_VETSTAT  | 0.002948   |
-| cat\_\_OWNERSHP | 0.000000   |
 :::
 
 *Table 5: This table lists the feature importance values for the best-performing Random Forest model. The higher the importance value, the more significant the feature is in predicting the target variable (income).*
@@ -293,8 +292,8 @@ Table 6: XGBoost Model Performance Metrics
 
 | Metric                         | Value            |
 |--------------------------------|------------------|
-| Mean Squared Error (MSE)       | 5,191,183,577.52 |
-| Root Mean Squared Error (RMSE) | 72,049.87        |
+| Mean Squared Error (MSE)       | 5,854,629,848.13 |
+| Root Mean Squared Error (RMSE) | 76,515.55        |
 :::
 
 *Table 6: This table shows the Mean Squared Error (MSE) and Root Mean Squared Error (RMSE) for the final XGBoost model, reflecting its predictive accuracy.*
@@ -312,12 +311,17 @@ We also performed cross-validation to ensure the robustness of the XGBoost model
 
 ::: {#tbl-XGBoostCV}
 \begin{center}
-Table 7: XGBoost Cross-Validation Performance
+Table 7: Cross-Validation RMSE for XGBoost Model
 \end{center}
 
-| Metric                | Value     |
-|-----------------------|-----------|
-| Cross-Validation RMSE | 71,994.55 |
+| Fold  | RMSE       |
+|-------|------------|
+| 1     | 76,693.86  |
+| 2     | 75,692.41  |
+| 3     | 76,193.42  |
+| 4     | 77,365.82  |
+| 5     | 76,552.10  |
+| **Average** | **76,499.52** |
 :::
 
 *Table 7: This table shows the Root Mean Squared Error (RMSE) from cross-validation, demonstrating the model’s performance across different subsets of the data.*
@@ -352,7 +356,7 @@ In the residuals vs. predicted values plot as shown in Figure \ref{fig:residual-
 
 ## Random Forest
 
-We employed a Random Forest model to predict income, tuning several hyperparameters to improve model performance. The best model was achieved with the following parameters: **max_depth=10**, **min_samples_leaf=4**, **min_samples_split=10**, and **n_estimators=300**. As we shown in Table \ref{tbl-randomforestMSE}, the final model had a Mean Squared Error (MSE) of 6,057,429,750 and a Root Mean Squared Error (RMSE) of 77,829.49, indicating a substantial improvement in prediction accuracy compared to the linear regression model.
+We employed a Random Forest model to predict income, tuning several hyperparameters to improve model performance. The best model was achieved with the following parameters: **max_depth=10**, **min_samples_leaf=4**, **min_samples_split=10**, and **n_estimators=300**. As we shown in Table \ref{tbl-randomforestMSE}, the final model had a Mean Squared Error (MSE) of 6,057,426,411.65 and a Root Mean Squared Error (RMSE) of 77,829.47, indicating a substantial improvement in prediction accuracy compared to the linear regression model.
 
 ### Feature Importance
 
@@ -364,7 +368,7 @@ The Random Forest model, Table \ref{tbl-randomforestimportance}, also allows for
 
 -   `num__AGE` (Age) comes in third with a score of 0.194, implying that age plays a substantial role in income prediction.
 
-Other variables, such as `cat__SEX` (Sex) and `cat__MARST` (Marital Status), show moderate importance, while factors like `cat__MORTGAGE` and `cat__SCHLTYPE` (School Type) have much smaller impacts. Interestingly, `cat__OWNERSHP` (Home Ownership) has no contribution to the model, as its importance score is 0.000.
+Other variables, such as `cat__SEX` (Sex) and `cat__MARST` (Marital Status), show moderate importance, while factors like `cat__MORTGAGE` and `cat__SCHLTYPE` (School Type) have much smaller impacts.
 
 ### Residual Analysis
 
@@ -372,11 +376,11 @@ The residuals from the Random Forest model as shown in Figure \ref{fig:residual-
 
 ## XGBoost
 
-The XGBoost model, a gradient boosting algorithm, was optimized using a hyperparameter grid search, yielding the best parameters: **learning_rate=0.1**, **max_depth=6**, **min_child_weight=5**, and **n_estimators=300**. These parameters were selected to balance model complexity and overfitting control. As we shown in Table \ref{tbl-XGBoostMSE}, the final model achieved a Mean Squared Error (MSE) of 5,191,183,577.52 and a Root Mean Squared Error (RMSE) of 72,049.87, making it the best-performing model among the three evaluated.
+The XGBoost model, a gradient boosting algorithm, was optimized using a hyperparameter grid search, yielding the best parameters: **learning_rate=0.1**, **max_depth=6**, **min_child_weight=5**, and **n_estimators=300**. These parameters were selected to balance model complexity and overfitting control. As we shown in Table \ref{tbl-XGBoostMSE}, the final model achieved a Mean Squared Error (MSE) of 5,854,629,848.13 and a Root Mean Squared Error (RMSE) of 76,515.55, making it the best-performing model among the three evaluated.
 
 ### Model Performance
 
-The XGBoost model’s Cross-Validation RMSE (Table \ref{tbl-XGBoostCV}) was 71,994.55, which aligns closely with the final RMSE, indicating that the model generalizes well across different data subsets. This consistency in performance suggests that XGBoost effectively captures the relationship between predictors and income without overfitting.
+The XGBoost model’s Cross-Validation RMSE (Table \ref{tbl-XGBoostCV}) was 76,499.52, which aligns closely with the final RMSE, indicating that the model generalizes well across different data subsets. This consistency in performance suggests that XGBoost effectively captures the relationship between predictors and income without overfitting.
 
 ### Residual Analysis
 
