@@ -418,7 +418,24 @@ In conclusion, while XGBoost provided the most accurate results, there is room f
 
 # Appendix
 
-## Data Cleaning
+## Data Cleaning {#sec-datacleaning}
+
+In the data cleaning process, we first examined all required variables and removed any observations with missing values (N/A). Notably, the variable `CITY`, which we initially intended to include in the analysis, was excluded due to its high proportion of missing values, which compromised data completeness.
+
+For the response variable, personal total income (INCTOT), we identified several non-informative coded values, such as `0000000 = None`, `9999998 = Unknown`, and `-009995 = -$9,900 (1980)` and so on. These values lack meaningful information for analysis, so we removed any records containing such entries to maintain the integrity of the income data.
+
+In terms of predictor variables, we found that several included codes like "not applicable" or "does not exist," which represent cases without relevant data for our analysis. These values were also removed to ensure only relevant data points were used in modeling.
+
+Furthermore, we simplified the `EDUC` variable (education level), which originally included highly granular categories (e.g., fifth grade, sixth grade, second year of college, fifth year of college). Such detailed classifications were unnecessary for our purposes, so we re-coded `EDUC` into a new variable, `EDUC_new`, with broader categories:
+
+-   'No Schooling': 0,
+-   'Nursery School': 1,
+-   'Primary School': 2,
+-   'Middle School': 3,
+-   'College 1-4 Years': 4,
+-   'College 5+ Years': 5
+
+This simplified categorization enhances interpretability and usability in the analysis. By conducting these data cleaning steps, we produced a refined and consistent dataset, ready for accurate and reliable modeling.
 
 \newpage
 
