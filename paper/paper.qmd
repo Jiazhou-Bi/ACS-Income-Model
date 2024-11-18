@@ -47,7 +47,7 @@ The Mortgage variable describes the mortgage status of dwelling. There are five 
 #| label: fig-figure1
 #| warning: false
 #| message: false
-#| fig-pos: "H"
+#| fig-pos: "htp"
 #| fig-cap: Most Homeowners Are on Mortgage
 
 import pandas as pd
@@ -80,7 +80,7 @@ This variable is coded as a binary variable, and we will use it as-is in our pro
 #| label: tbl-table1
 #| warning: false
 #| message: false
-#| fig-pos: "H"
+#| fig-pos: "htp"
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -585,6 +585,8 @@ Table 8: XGBoost Cross-Validation Performance
 *Table 8: This table shows the Root Mean Squared Error (RMSE) from cross-validation, demonstrating the model’s performance across different subsets of the data.*
 
 We used matplotlib [@cite_matplotlib] to perform a residual analysis against the predicted values from the XGBoost model. We performed cross-validation using cross_val_score function from scikit-learn  [@cite_sklearn] to evaluate the robustness of the model. 
+
+\newpage
 
 # Results {#sec-results}
 
