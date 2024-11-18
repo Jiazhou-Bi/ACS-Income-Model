@@ -22,5 +22,8 @@ The repo is structured as:
 -   `paper` contains the files used to generate the paper, including the Quarto document and reference bibliography file, as well as the PDF of the paper. 
 -   `scripts` contains the Python scripts used to simulate, download and clean data.
 
+## Statement on LLM Usage
+The code in `00-simulated_data.ipynb` and `01-test_simulated_data.ipynb` was initially generated using ChatGPT-4 and subsequently modified manually to meet project requirements and ensure accuracy.  The text sections of this project may utilize translation software such as DeepL and Grammarly for clarity and linguistic accuracy. The entire chat history is available in `other/llm_usage/usage.txt`.
+
 ## Contact The Authors
 If you have any questions, comments, suggestions, or concerns regarding this project, please feel free to contact Justin (Jiazhou Bi) at [justin.bi@mail.utoronto.ca](mailto:justin.bi@mail.utoronto.ca) or Weiyang Li at [weiyang.li@mail.utoronto.ca](mailto:weiyang.li@mail.utoronto.ca).
